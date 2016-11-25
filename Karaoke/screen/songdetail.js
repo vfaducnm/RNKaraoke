@@ -4,13 +4,24 @@ import {
   StyleSheet,
   Text,
   View,
-  Image
+  Image,
+  TextInput,
 } from 'react-native';
 
 export default class SongDetail extends Component {
+  constructor(props){
+    super(props);
+    this.state = {text: ""};
+  }
   render() {
     return (
-      <View style={styles.container}>      
+      <View style={styles.container}>
+        <TextInput
+          placeholder="Search"
+          style={styles.searchBar}
+          onChangeText={(text) => this.setState({text})}
+          value={this.state.text}
+        />
         <Text style={styles.welcome}>
           50051
         </Text>
@@ -49,5 +60,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333333',
     margin: 15,
+  },
+  searchBar: {
+    height: 45,
+    borderColor: 'gray',
+    borderWidth: 6,
+    alignSelf: 'stretch',}
   },
 });

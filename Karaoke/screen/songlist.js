@@ -1,26 +1,32 @@
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ * @flow
+ */
+
 import React, { Component } from 'react';
 import {
   AppRegistry,
   StyleSheet,
   Text,
-  View,
-
+  View
 } from 'react-native';
-import { Header, InputGroup, Icon, Button } from 'native-base';
 
 export class SongList extends Component {
-  search(){
-    console.log('You press search');
-  }
   render() {
     return (
-      <Header searchBar rounded>
-          <InputGroup>
-              <Icon name="ios-search" />
-              <Input placeholder="Search" value={this.state.search}  onChangeText={(text) => this.setState({search:text})} onSubmitEditing={()=>this.search()}/>
-          </InputGroup>
-          <Button transparent onPress={()=>this.search()}>Go</Button>
-      </Header>
+      <View style={styles.container}>
+        <Text style={styles.welcome}>
+          Welcome to React Native!
+        </Text>
+        <Text style={styles.instructions}>
+          To get started, edit index.ios.js
+        </Text>
+        <Text style={styles.instructions}>
+          Press Cmd+R to reload,{'\n'}
+          Cmd+D or shake for dev menu
+        </Text>
+      </View>
     );
   }
 }
@@ -28,19 +34,18 @@ export class SongList extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
   welcome: {
-    fontSize: 25,
-    fontWeight: 'bold',
+    fontSize: 20,
     textAlign: 'center',
-    margin: 15,
+    margin: 10,
   },
   instructions: {
-    fontSize: 15,
     textAlign: 'center',
     color: '#333333',
-    margin: 15,
+    marginBottom: 5,
   },
 });
