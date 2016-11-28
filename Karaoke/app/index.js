@@ -6,6 +6,8 @@ import {
   TextInput
 } from 'react-native';
 import { Actions, Scene, Router} from 'react-native-router-flux';
+import KaraokeList from '../app/components/karaokelist.js';
+import FavoriteList from '../app/components/favoritelist.js';
 
 const App = () => {
   return (
@@ -14,17 +16,17 @@ const App = () => {
         <Scene
           key="tabbar"
           tabs={true}
-          tabBarStyle={{ backgroundColor: '#FFFFFF' }} >
+          tabBarStyle={{ backgroundColor: '#FFFFFF', top: 100, height: 50, padding: 16,}} >
             <Scene key="osu" title="Karaoke List" icon={TabIcon}>
               <Scene key="list"
-              component={PageOne}
+              component={KaraokeList}
               title="Karaoke"
               />
             </Scene>
             <Scene key="fav" title="Favorite List" icon={TabIcon}>
               <Scene key="favorite"
-              component={PageTwo}
-              title="Favorite"
+              component={FavoriteList}
+              title="Karaoke"
               />
             </Scene>
         </Scene>
@@ -33,75 +35,10 @@ const App = () => {
   );
 }
 
-const ListSong = () => {
-  this.state = {text: ""};
-  return (
-    <View style={styles.container}>
-      <TextInput
-        style={{height: 45, borderColor: 'gray', borderWidth: 6, alignSelf: 'stretch',}}  />
-      <Text
-        style={styles.welcome} >
-        This is list song
-      </Text>
-    </View>
-  );
-}
-
 const TabIcon = ({ selected, title }) => {
   return (
     <Text style={{color: selected ? 'blue' :'black'}}>{title}</Text>
   );
-}
-
-const BookmarkList = () => {
-  this.state={text: ""};
-  return (
-    <View style={styles.container}>
-      <TextInput
-        style={{height: 45, borderColor: 'gray', borderWidth: 6, alignSelf: 'stretch',}} />
-      <Text style={styles.welcome} >
-        Favorite layout
-      </Text>
-    </View>
-  );
-}
-
-export class PageOne extends Component {
-  constructor(props){
-    super(props);
-    this.state = {text:""}
-  }
-
-  render() {
-    return (
-      <View style={styles.container}>
-      <TextInput
-              style={{marginTop: 55, height: 45, borderColor: 'gray', borderWidth: 6, alignSelf: 'stretch',}}
-              onChangeText={(text) => this.setState({text})}
-              value={this.state.text} />
-        <Text>This is PageOne!</Text>
-      </View>
-    )
-  }
-}
-
-export class PageTwo extends Component {
-  constructor(props){
-    super(props);
-    this.state = {text:""}
-  }
-
-  render() {
-    return (
-      <View style={styles.container}>
-      <TextInput
-              style={{marginTop: 55, height: 45, borderColor: 'gray', borderWidth: 6, alignSelf: 'stretch',}}
-              onChangeText={(text) => this.setState({text})}
-              value={this.state.text} />
-        <Text>This is PageTwo!</Text>
-      </View>
-    )
-  }
 }
 
 const styles = StyleSheet.create({
