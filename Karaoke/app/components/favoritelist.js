@@ -19,7 +19,7 @@ export class FavoriteList extends Component {
               style={{marginTop: 55, height: 45, borderColor: 'gray', borderWidth: 6, alignSelf: 'stretch',}}
               onChangeText={(text) => this.setState({text})}
               value={this.state.text} />
-        <Text style={{top: 150}}>This is PageTwo!</Text>
+        <Text style={{top: 150}}>This is Favorite!</Text>
       </View>
     )
   }
