@@ -10,6 +10,7 @@ export class FavoriteList extends Component {
   constructor(props){
     super(props);
     this.state = {text:""}
+
   }
 
   render() {
@@ -20,7 +21,9 @@ export class FavoriteList extends Component {
               onChangeText={(text) => this.setState({text})}
               value={this.state.text} />
         <Text style={{top: 150}}>This is Favorite!</Text>
+
       </View>
+
     )
   }
 }
