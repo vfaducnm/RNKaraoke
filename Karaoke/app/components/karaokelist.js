@@ -16,9 +16,6 @@ var listData = new Array();
 var ds;
 var that;
 
-// TEST Start
-var RCTUIManager = require('NativeModules').UIManager;
-//TEST END
 
 class KaraokeList extends Component {
 
