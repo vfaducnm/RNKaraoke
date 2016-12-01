@@ -16,6 +16,10 @@ var listData = new Array();
 var ds;
 var that;
 
+// TEST Start
+var RCTUIManager = require('NativeModules').UIManager;
+//TEST END
+
 class KaraokeList extends Component {
 
   errorCB(err) {
@@ -138,22 +142,20 @@ class KaraokeList extends Component {
               onChangeText={(text) => this.setState({text})}
               value={this.state.text} />
 
-        
-          
-            <GiftedListView 
-              style = {{marginTop: 50}}
-              rowView ={this.renderRow}
-              onFetch = {this.onFetch}
-              initialListSize={15}
-              firstLoader={true} // display a loader for the first fetching
-              pagination={true} // enable infinite scrolling using touch to load more
-              refreshable={true} // enable pull-to-refresh for iOS and touch-to-refresh for Android
-              withSections={false} // enable sections
-               enableEmptySections = { true }
-               rowHasChanged={(r1,r2)=>{
-               r1.id !== r2.id
-          }}
-            />
+          <GiftedListView 
+            style = {{marginTop: 50}}
+            rowView ={this.renderRow}
+            onFetch = {this.onFetch}
+            initialListSize={15}
+            firstLoader={true} // display a loader for the first fetching
+            pagination={true} // enable infinite scrolling using touch to load more
+            refreshable={true} // enable pull-to-refresh for iOS and touch-to-refresh for Android
+            withSections={false} // enable sections
+             enableEmptySections = { true }
+             rowHasChanged={(r1,r2)=>{
+             r1.id !== r2.id
+        }}
+          />
           
       </View>
     )
