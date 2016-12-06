@@ -3,52 +3,27 @@ import {
   StyleSheet,
   Text,
   View,
-// <<<<<<< HEAD
-//   ListView,
-//   TextInput,
-//   TouchableOpacity,
-//   ToastAndroid,
-//   Image
-// } from 'react-native';
-
-// var testData =[
-//   {id: '55477', name:'Anh Ba Khia'},
-//   {id: '55950', name:'Cau Vong Sau Mua'},
-//   {id: '57200', name:'Em La Cua Anh'},
-//   {id: '50159', name:'Con Duong Mua'},
-//   {id: '50447', name:'Gia Nhu Em Co The'},
-//   {id: '55477', name:'Anh Ba Khia'},
-//   {id: '55950', name:'Cau Vong Sau Mua'},
-//   {id: '57200', name:'Em La Cua Anh'},
-//   {id: '50159', name:'Con Duong Mua'},
-//   {id: '50447', name:'Gia Nhu Em Co The'},
-//   {id: '55477', name:'Anh Ba Khia'},
-//   {id: '55950', name:'Cau Vong Sau Mua'},
-//   {id: '57200', name:'Em La Cua Anh'},
-//   {id: '50159', name:'Con Duong Mua'},
-//   {id: '50447', name:'Gia Nhu Em Co The'},
-//   {id: '50447', name:'Gia Nhu Em Co The'},
-//   {id: '55477', name:'Anh Ba Khia'},
-//   {id: '55950', name:'Cau Vong Sau Mua'},
-//   {id: '57200', name:'Em La Cua Anh'},
-//   {id: '50159', name:'Con Duong Mua'},
-//   {id: '50447', name:'Gia Nhu Em Co The'},
-// ];
-// =======
+  TouchableOpacity,
+  ToastAndroid,
+  Image, 
   TextInput,
   ListView,
-  ActivityIndicator
+  ActivityIndicator,
+  Alert
 } from 'react-native';
 
 var SQLite = require('react-native-sqlite-storage');
 var GiftedListView = require('react-native-gifted-listview');
 
 var db;
-var listData = new Array();
+
 var ds;
 var that;
-// >>>>>>> CuongTT
-
+var data = [];
+var allRow = {};
+var favList = {};
+var wStar = require('../../image/whiteStar.png');
+var star = require('../../image/star.png');
 
 class KaraokeList extends Component {
 
@@ -66,47 +41,13 @@ class KaraokeList extends Component {
 
   constructor(props){
     super(props);
-// <<<<<<< HEAD
-//     this.state = {text:""};
-//     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-//     this.state = {
-//       dataSource: ds.cloneWithRows(testData),
-//     };
-//   }
-
-
-// renderRow(property){
-//   return(
-//     <View style={styles.marginItem}>
-//       <Text style={[styles.marginSongId]}>
-//        {property.id}
-//        </Text>
-
-//        <View style={styles.songName}>
-//        <Text style={{textAlign:'right'},{color:'red'}}>
-//        {property.name}
-//        </Text>
-//        </View>
-
-// <TouchableOpacity
-// onPress={() =>
-//               ToastAndroid.show('Add to Favorite', ToastAndroid.SHORT)}>
-//       <Image
-//       style={styles.starIcon}
-//       source={{uri: 'http://www.iconsdb.com/icons/preview/caribbean-blue/star-xxl.png'}}
-//       />
-// </TouchableOpacity>
-
-//     </View>
-//   );
-// }
-// =======
 
     that = this;
 
     this.state = {
       text:"",
-      isLoading: true
+      isLoading: true,
+      // starIcon: require('../../image/whiteStar.png')
     }
 
   }
@@ -120,6 +61,7 @@ class KaraokeList extends Component {
     var limit = 15;
     var offset = (page - 1) * limit;
 
+    if (page == 1) data = [];
 
     db = SQLite.openDatabase({name : 'karaoke_db.sqlite', createFromLocation : 1},this.openCB, this.errorCB);
     db.transaction((tx) => {
@@ -127,21 +69,28 @@ class KaraokeList extends Component {
         console.log('Query completed');
 
         var len = results.rows.length;
-        var data = [];
-
+      
         for (let i = 0; i < len; i++) {
           let row = results.rows.item(i);
+
+          if (!favList[row.id]) {
+            row.fav = false;
+            favList[row.id] = false;
+          } else {
+            row.fav = true;
+          }
           
           data.push(row);
       
         }
+
+        console.log(data);
 
         if (callback) {
           callback(data);
         }
 
         this.setState({
-          // dataSource: ds.cloneWithRows(listData),
           isLoading: false
         });
 
@@ -165,41 +114,63 @@ class KaraokeList extends Component {
 
   }
 
+  addFavorite(giftedListView, id) {
+    console.log('add favou');
+
+    favList[id] = !favList[id];
+
+    var newData = JSON.parse(JSON.stringify(data));
+
+    for (var i=0; i<newData.length; i++) {
+      if (newData[i].id == id) {
+        newData[i].fav = favList[id];
+        break;
+      }
+    }
+
+    // console.log(newData);
+
+    giftedListView._updateRows(newData);
+  }
+
+  loadImage(id) {
+    console.log('load image');
+    var fav = favList[id];
+
+    if (fav) {
+      return star;
+    } else {
+      return wStar;
+    }
+  }
+
   renderRow(property) {
     console.log('property',property);
+    console.log('render');
+
     return(
-      <View style = {{marginTop: 10}}>
-        <Text>
-          {property.id} - {property.title}
+      <View style = {{marginTop: 10, flexDirection: 'row'}}>
+        <Text style ={{marginLeft: 10}}>
+          {property.id} 
         </Text>
+        <Text style = {{marginLeft: 20,textAlign:'center',color:'red'}}>
+          {property.title}
+        </Text>
+        <View style ={{marginLeft: 100}}>
+          <TouchableOpacity
+            onPress={that.addFavorite.bind(that, this, property.id)}>
+            <Image
+              style={styles.starIcon}
+              source={that.loadImage(property.id)}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
 
-// Cuong BK START
-  // render() {
-  //   return (
-  //     <View style={styles.container}>
-  //       <TextInput
-  //             style={{marginTop: 55, height: 45, borderColor: 'gray', borderWidth: 6, alignSelf: 'stretch',}}
-  //             onChangeText={(text) => this.setState({text})}
-  //             value={this.state.text} />
-
-        
-  //         {this.state.isLoading ? <ActivityIndicator size='large' style={styles.container}/> :
-  //           <ListView 
-  //             style = {{marginTop: 50}}
-  //             dataSource = {this.state.dataSource}
-  //             renderRow ={this.renderRow}
-  //             initialListSize={12}
-  //           />
-
-  //         }
-  //     </View>
-  //   )
-  // }
-  // Cuong BK END
   render() {
+
     return (
       <View style={styles.container}>
         <TextInput
@@ -216,10 +187,8 @@ class KaraokeList extends Component {
             pagination={true} // enable infinite scrolling using touch to load more
             refreshable={true} // enable pull-to-refresh for iOS and touch-to-refresh for Android
             withSections={false} // enable sections
-             enableEmptySections = { true }
-             rowHasChanged={(r1,r2)=>{
-             r1.id !== r2.id
-        }}
+            enableEmptySections = { true }
+            
           />
           
       </View>
@@ -260,8 +229,9 @@ const styles = StyleSheet.create({
     alignItems:'flex-start',
   },
   starIcon:{
-    width:20,
-    height:20,
+    width:30,
+    height:30,
+   
   },
 });
 
