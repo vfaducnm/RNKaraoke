@@ -3,7 +3,8 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput
+  TextInput,
+  Platform,
 } from 'react-native';
 import { Actions, Scene, Router} from 'react-native-router-flux';
 import KaraokeList from '../app/components/karaokelist.js';
@@ -16,7 +17,17 @@ const App = () => {
         <Scene
           key="tabbar"
           tabs={true}
-          tabBarStyle={{ backgroundColor: '#FFFFFF', top: 100, height: 50, padding: 16,}} >
+          tabBarStyle={{ backgroundColor: '#FFFFFF',
+                          ...Platform.select({
+                            ios: {
+                              top: 110,
+                            },
+                            android: {
+                              top: 100,
+                            },
+                          }),
+                          height: 50,
+                          padding: 16, }} >
             <Scene key="osu" title="Karaoke List" icon={TabIcon}>
               <Scene key="list"
               component={KaraokeList}
