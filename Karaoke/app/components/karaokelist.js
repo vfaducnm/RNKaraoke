@@ -20,8 +20,9 @@ var db;
 var ds;
 var that;
 var data = [];
-var allRow = {};
+
 var favList = {};
+
 var wStar = require('../../image/whiteStar.png');
 var star = require('../../image/star.png');
 
@@ -43,7 +44,7 @@ class KaraokeList extends Component {
     super(props);
 
     that = this;
-
+    db = SQLite.openDatabase({name : 'karaoke_db.sqlite', createFromLocation : 1},this.openCB, this.errorCB);
     this.state = {
       text:"",
       isLoading: true,
@@ -54,16 +55,16 @@ class KaraokeList extends Component {
 
   componentDidMount() {
     // this.loadData();
-
+    
   }
 
   loadData(page = 1, callback) {
-    var limit = 15;
+    var limit = 13;
     var offset = (page - 1) * limit;
 
     if (page == 1) data = [];
 
-    db = SQLite.openDatabase({name : 'karaoke_db.sqlite', createFromLocation : 1},this.openCB, this.errorCB);
+    // db = SQLite.openDatabase({name : 'karaoke_db.sqlite', createFromLocation : 1},this.openCB, this.errorCB);
     db.transaction((tx) => {
       tx.executeSql('SELECT * FROM tblDanhSachBaiHat LIMIT ' + limit + ' OFFSET ' + offset, [] , (tx, results) => {
         console.log('Query completed');
@@ -73,13 +74,8 @@ class KaraokeList extends Component {
         for (let i = 0; i < len; i++) {
           let row = results.rows.item(i);
 
-          if (!favList[row.id]) {
-            row.fav = false;
-            favList[row.id] = false;
-          } else {
-            row.fav = true;
-          }
-          
+          favList[row.id] = row.favorite;
+
           data.push(row);
       
         }
@@ -117,46 +113,64 @@ class KaraokeList extends Component {
   addFavorite(giftedListView, id) {
     console.log('add favou');
 
-    favList[id] = !favList[id];
-
     var newData = JSON.parse(JSON.stringify(data));
 
     for (var i=0; i<newData.length; i++) {
       if (newData[i].id == id) {
-        newData[i].fav = favList[id];
+
+        if (newData[i].favorite) {
+          newData[i].favorite = 0;
+        } else {
+          newData[i].favorite = 1;
+        }
+
+        favList[id] = newData[i].favorite;
+
+        this.updateData(newData[i]);
+
         break;
       }
     }
 
-    // console.log(newData);
-
     giftedListView._updateRows(newData);
+
   }
 
   loadImage(id) {
-    console.log('load image');
-    var fav = favList[id];
+    console.log('========= load image =========');
 
-    if (fav) {
+    if (favList[id]) {
       return star;
     } else {
       return wStar;
     }
+    
+  }
+
+  updateData(updateData) {
+    // console.log("fav: " + fav , 'idUpd ' + idUpd.id);
+    // TEST START
+    db.transaction((tx) => {
+      tx.executeSql('UPDATE tblDanhSachBaiHat SET favorite ='+ updateData.favorite +'  WHERE id = ' + updateData.id
+                      , [] , (tx, results) => {
+        console.log('Query completed');
+      });
+    },(err) =>{
+       console.log('transaction error: ', err.message);
+    });
+    // TEST END
   }
 
   renderRow(property) {
-    console.log('property',property);
-    console.log('render');
-
     return(
-      <View style = {{marginTop: 10, flexDirection: 'row'}}>
-        <Text style ={{marginLeft: 10}}>
+      <View style = {{marginTop: 10, flexDirection: 'row',flex: 1,}}>
+        <Text style ={{marginLeft: 10, }}>
           {property.id} 
         </Text>
-        <Text style = {{marginLeft: 20,textAlign:'center',color:'red'}}>
+        <Text style = {{marginLeft: 20,flex: 1,color:'red', }}>
           {property.title}
         </Text>
-        <View style ={{marginLeft: 100}}>
+        <View style ={{ }}>
           <TouchableOpacity
             onPress={that.addFavorite.bind(that, this, property.id)}>
             <Image
@@ -179,10 +193,10 @@ class KaraokeList extends Component {
               value={this.state.text} />
 
           <GiftedListView 
-            style = {{marginTop: 50}}
+            style = {styles.listView}
             rowView ={this.renderRow}
             onFetch = {this.onFetch}
-            initialListSize={15}
+            initialListSize={10}
             firstLoader={true} // display a loader for the first fetching
             pagination={true} // enable infinite scrolling using touch to load more
             refreshable={true} // enable pull-to-refresh for iOS and touch-to-refresh for Android
@@ -210,7 +224,7 @@ const styles = StyleSheet.create({
   listView: {
     flex: 1,
     alignSelf:'stretch',
-    marginTop: 50,
+    marginTop: 45,
     backgroundColor: '#ffffff',
   },
   songName:{
@@ -229,8 +243,8 @@ const styles = StyleSheet.create({
     alignItems:'flex-start',
   },
   starIcon:{
-    width:30,
-    height:30,
+    width:25,
+    height:25,
    
   },
 });

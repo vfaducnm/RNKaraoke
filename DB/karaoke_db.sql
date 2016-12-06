@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS "tblDanhSachBaiHat";
-CREATE TABLE "tblDanhSachBaiHat" ("id" INTEGER PRIMARY KEY  NOT NULL , "title" TEXT, "title_simple" TEXT, "lang" TEXT, "lyric" TEXT, "source" TEXT);
+CREATE TABLE "tblDanhSachBaiHat" ("id" INTEGER PRIMARY KEY  NOT NULL , "title" TEXT, "title_simple" TEXT, "lang" TEXT, "lyric" TEXT, "source" TEXT,"favorite" TEXT);
 
 INSERT INTO "tblDanhSachBaiHat" VALUES(33644,'1 THING','1 thing','en','','amerie');
 INSERT INTO "tblDanhSachBaiHat" VALUES(33645,'2 HEARTS','2 hearts','en','','kylie minogue');
