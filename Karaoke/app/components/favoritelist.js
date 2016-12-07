@@ -19,7 +19,8 @@ export class FavoriteList extends Component {
       <TextInput
               style={{marginTop: 55, height: 45, borderColor: '#e5e5e5', borderWidth: 6, alignSelf: 'stretch',}}
               onChangeText={(text) => this.setState({text})}
-              value={this.state.text} />
+              value={this.state.text}
+              placeholder="Search"/>
         <Text style={{top: 150}}>This is Favorite!</Text>
 
       </View>

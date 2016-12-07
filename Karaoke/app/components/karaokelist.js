@@ -4,7 +4,7 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Image, 
+  Image,
   Platform,
   TextInput,
   ListView,
@@ -51,7 +51,7 @@ class KaraokeList extends Component {
 
   componentDidMount() {
     // this.loadData();
-    
+
   }
 
   // Cuong - Comment Start
@@ -103,7 +103,7 @@ class KaraokeList extends Component {
 
         var len = results.rows.length;
         var _data = [];
-      
+
         for (let i = 0; i < len; i++) {
           let row = results.rows.item(i);
 
@@ -177,7 +177,7 @@ class KaraokeList extends Component {
     } else {
       return wStar;
     }
-    
+
   }
 
   updateData(updateData) {
@@ -211,7 +211,7 @@ class KaraokeList extends Component {
     return(
       <View style = {{marginTop: 10, flexDirection: 'row',flex: 1,}}>
         <Text style ={{marginLeft: 10, }}>
-          {property.id} 
+          {property.id}
         </Text>
         <Text style = {{marginLeft: 20,flex: 1,color:'blue', }}>
           {property.title}
@@ -256,20 +256,21 @@ class KaraokeList extends Component {
     return (
       <View style={styles.container}>
         <TextInput
-              style={{...Platform.select({
+              style={{  ...Platform.select({
                           ios: {top:65},
                           android: {top: 55},}),
-                      height: 45,
-                      borderColor: '#e5e5e5',
-                      borderWidth: 6,
-                      alignSelf: 'stretch',}}
+                        height: 45,
+                        borderColor: '#e5e5e5',
+                        borderWidth: 6,
+                        alignSelf: 'stretch',}}
               onChangeText={this.onSearchChange.bind(this)}
-              value={this.state.text} />
+              value={this.state.text}
+              placeholder = "Search" />
 
           <GiftedListView
             style = {{...Platform.select({
                         ios: {marginTop:120,alignSelf:'stretch',},
-                        android: {marginTop: 110,alignSelf:'stretch'},})}}
+                        android: {marginTop: 50,alignSelf:'stretch'},})}}
 
             rowView ={this.renderRow}
             onFetch = {this.onFetch}
