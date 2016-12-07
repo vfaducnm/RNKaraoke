@@ -3,6 +3,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Platform,
 // <<<<<<< HEAD
 //   ListView,
 //   TextInput,
@@ -106,7 +107,9 @@ class KaraokeList extends Component {
 
     this.state = {
       text:"",
-      isLoading: true
+      isLoading: true,
+      searchText: "",
+      forceUpdate: false,
     }
 
   }
@@ -114,6 +117,41 @@ class KaraokeList extends Component {
   componentDidMount() {
     // this.loadData();
 
+  }
+
+  loadData(searchText, page = 1, callback){
+    var limit = 15;
+    var offset = (page - 1) * limit;
+    var searchVar = searchText;
+
+    db = SQLite.openDatabase({name : 'karaoke_db.sqlite', createFromLocation : 1},this.openCB, this.errorCB);
+    db.transaction((tx) => {
+      tx.executeSql("SELECT * FROM tblDanhSachBaiHat WHERE title LIKE '%" + searchVar + "%' LIMIT " + limit + " OFFSET " + offset, [] , (tx, results) => {
+        console.log('Query completed');
+
+        var len = results.rows.length;
+        var data = [];
+
+        for (let i = 0; i < len; i++) {
+          let row = results.rows.item(i);
+
+          data.push(row);
+
+        }
+
+        if (callback) {
+          callback(data);
+        }
+
+        this.setState({
+          // dataSource: ds.cloneWithRows(listData),
+          isLoading: false
+        });
+
+        // console.log('asdasdas', this.state.dataSource);
+
+      });
+    });
   }
 
   loadData(page = 1, callback) {
@@ -131,9 +169,9 @@ class KaraokeList extends Component {
 
         for (let i = 0; i < len; i++) {
           let row = results.rows.item(i);
-          
+
           data.push(row);
-      
+
         }
 
         if (callback) {
@@ -146,7 +184,7 @@ class KaraokeList extends Component {
         });
 
         // console.log('asdasdas', this.state.dataSource);
-      
+
       });
     });
   }
@@ -154,6 +192,19 @@ class KaraokeList extends Component {
 
   onFetch(page = 1, callback, options) {
     that.loadData(page, (rows) => {
+      if (rows.length == 0) {
+        callback(rows, {
+          allLoaded: true // the end of the list is reached
+        });
+      } else {
+        callback(rows);
+      }
+    });
+
+  }
+
+  onFetch(searchText, page = 1, callback, options) {
+    that.loadData(searchText, page, (rows) => {
       if (rows.length == 0) {
         callback(rows, {
           allLoaded: true // the end of the list is reached
@@ -176,6 +227,26 @@ class KaraokeList extends Component {
     );
   }
 
+  setSearchText(event){
+    let searchText = event.nativeEvent.text;
+    this.setState({searchText});
+
+    base.fetch('title', )
+  }
+
+  filterSongs(searchText, songs){
+    let text = searchText.toLowerCase();
+    return filter(songs, (n) => {
+      let song = n.title.toLowerCase();
+      return song.search(text) != -1;
+    });
+  }
+
+  onSearchChange (event) {
+   var textSearch = event.nativeEvent.text.toLowerCase()
+   this.setState({searchText: textSearch, forceUpdate: true})
+  }
+
 // Cuong BK START
   // render() {
   //   return (
@@ -185,9 +256,9 @@ class KaraokeList extends Component {
   //             onChangeText={(text) => this.setState({text})}
   //             value={this.state.text} />
 
-        
+
   //         {this.state.isLoading ? <ActivityIndicator size='large' style={styles.container}/> :
-  //           <ListView 
+  //           <ListView
   //             style = {{marginTop: 50}}
   //             dataSource = {this.state.dataSource}
   //             renderRow ={this.renderRow}
@@ -203,12 +274,20 @@ class KaraokeList extends Component {
     return (
       <View style={styles.container}>
         <TextInput
-              style={{marginTop: 55, height: 45, borderColor: 'gray', borderWidth: 6, alignSelf: 'stretch',}}
-              onChangeText={(text) => this.setState({text})}
+              style={{...Platform.select({
+                          ios: {top:65},
+                          android: {top: 55},}),
+                      height: 45,
+                      borderColor: '#e5e5e5',
+                      borderWidth: 6,
+                      alignSelf: 'stretch',}}
+              onChangeText={this.onSearchChange.bind(this)}
               value={this.state.text} />
 
-          <GiftedListView 
-            style = {{marginTop: 50}}
+          <GiftedListView
+            style = {{...Platform.select({
+                        ios: {marginTop:120},
+                        android: {marginTop: 110},})}}
             rowView ={this.renderRow}
             onFetch = {this.onFetch}
             initialListSize={15}
@@ -216,12 +295,12 @@ class KaraokeList extends Component {
             pagination={true} // enable infinite scrolling using touch to load more
             refreshable={true} // enable pull-to-refresh for iOS and touch-to-refresh for Android
             withSections={false} // enable sections
-             enableEmptySections = { true }
-             rowHasChanged={(r1,r2)=>{
-             r1.id !== r2.id
+            enableEmptySections = { true }
+            rowHasChanged={(r1,r2)=>{
+            r1.id !== r2.id
         }}
           />
-          
+
       </View>
     );
   }
