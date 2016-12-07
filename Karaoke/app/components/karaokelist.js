@@ -4,8 +4,8 @@ import {
   Text,
   View,
   TouchableOpacity,
-  ToastAndroid,
   Image, 
+  Platform,
   TextInput,
   ListView,
   ActivityIndicator,
@@ -14,15 +14,11 @@ import {
 
 var SQLite = require('react-native-sqlite-storage');
 var GiftedListView = require('react-native-gifted-listview');
-
 var db;
-
 var ds;
 var that;
 var data = [];
-
 var favList = {};
-
 var wStar = require('../../image/whiteStar.png');
 var star = require('../../image/star.png');
 
@@ -48,9 +44,9 @@ class KaraokeList extends Component {
     this.state = {
       text:"",
       isLoading: true,
-      // starIcon: require('../../image/whiteStar.png')
+      searchText: "",
+      forceUpdate: false,
     }
-
   }
 
   componentDidMount() {
@@ -58,13 +54,49 @@ class KaraokeList extends Component {
     
   }
 
+  // Cuong - Comment Start
+  // loadData(searchText, page = 1, callback){
+  //   var limit = 15;
+  //   var offset = (page - 1) * limit;
+  //   var searchVar = searchText;
+
+  //   db = SQLite.openDatabase({name : 'karaoke_db.sqlite', createFromLocation : 1},this.openCB, this.errorCB);
+  //   db.transaction((tx) => {
+  //     tx.executeSql("SELECT * FROM tblDanhSachBaiHat WHERE title LIKE '%" + searchVar + "%' LIMIT " + limit + " OFFSET " + offset, [] , (tx, results) => {
+  //       console.log('Query completed');
+
+  //       var len = results.rows.length;
+  //       var data = [];
+
+  //       for (let i = 0; i < len; i++) {
+  //         let row = results.rows.item(i);
+
+  //         data.push(row);
+
+  //       }
+
+  //       if (callback) {
+  //         callback(data);
+  //       }
+
+  //       this.setState({
+  //         // dataSource: ds.cloneWithRows(listData),
+  //         isLoading: false
+  //       });
+
+  //       // console.log('asdasdas', this.state.dataSource);
+
+  //     });
+  //   });
+  // }
+  // Cuong - Comment End
+
   loadData(page = 1, callback) {
     var limit = 13;
     var offset = (page - 1) * limit;
 
     if (page == 1) data = [];
 
-    // db = SQLite.openDatabase({name : 'karaoke_db.sqlite', createFromLocation : 1},this.openCB, this.errorCB);
     db.transaction((tx) => {
       tx.executeSql('SELECT * FROM tblDanhSachBaiHat LIMIT ' + limit + ' OFFSET ' + offset, [] , (tx, results) => {
         console.log('Query completed');
@@ -79,6 +111,7 @@ class KaraokeList extends Component {
 
           data.push(row);
           _data.push(row);
+
         }
 
         if (callback) {
@@ -89,8 +122,6 @@ class KaraokeList extends Component {
           isLoading: false
         });
 
-        // console.log('asdasdas', this.state.dataSource);
-      
       });
     });
   }
@@ -108,6 +139,7 @@ class KaraokeList extends Component {
     });
 
   }
+
 
   addFavorite(giftedListView, id) {
     console.log('add favou');
@@ -160,6 +192,19 @@ class KaraokeList extends Component {
        console.log('transaction error: ', err.message);
     });
     // TEST END
+
+  // Cuong- Comment Start
+  // onFetch(searchText, page = 1, callback, options) {
+  //   that.loadData(searchText, page, (rows) => {
+  //     if (rows.length == 0) {
+  //       callback(rows, {
+  //         allLoaded: true // the end of the list is reached
+  //       });
+  //     } else {
+  //       callback(rows);
+  //     }
+  //   });
+  // Cuong - Comment End
   }
 
   renderRow(property) {
@@ -168,7 +213,7 @@ class KaraokeList extends Component {
         <Text style ={{marginLeft: 10, }}>
           {property.id} 
         </Text>
-        <Text style = {{marginLeft: 20,flex: 1,color:'red', }}>
+        <Text style = {{marginLeft: 20,flex: 1,color:'blue', }}>
           {property.title}
         </Text>
         <View style ={{ }}>
@@ -184,17 +229,48 @@ class KaraokeList extends Component {
     );
   }
 
+
+  setSearchText(event){
+    let searchText = event.nativeEvent.text;
+    this.setState({searchText});
+
+    base.fetch('title', )
+  }
+
+  filterSongs(searchText, songs){
+    let text = searchText.toLowerCase();
+    return filter(songs, (n) => {
+      let song = n.title.toLowerCase();
+      return song.search(text) != -1;
+    });
+  }
+
+  onSearchChange (event) {
+   var textSearch = event.nativeEvent.text.toLowerCase()
+   this.setState({searchText: textSearch, forceUpdate: true})
+  }
+
+
   render() {
 
     return (
       <View style={styles.container}>
         <TextInput
-              style={{marginTop: 55, height: 45, borderColor: 'gray', borderWidth: 6, alignSelf: 'stretch',}}
-              onChangeText={(text) => this.setState({text})}
+              style={{...Platform.select({
+                          ios: {top:65},
+                          android: {top: 55},}),
+                      height: 45,
+                      borderColor: '#e5e5e5',
+                      borderWidth: 6,
+                      alignSelf: 'stretch',}}
+              onChangeText={this.onSearchChange.bind(this)}
               value={this.state.text} />
 
-          <GiftedListView 
-            style = {styles.listView}
+          <GiftedListView
+            style = {{...Platform.select({
+                        ios: {marginTop:120,alignSelf:'stretch',},
+                        android: {marginTop: 110,alignSelf:'stretch'},})}}
+
             rowView ={this.renderRow}
             onFetch = {this.onFetch}
             initialListSize={10}
@@ -205,7 +281,7 @@ class KaraokeList extends Component {
             enableEmptySections = { true }
             rowHasChanged={ (row1, row2) => { row1 !== row2 || row1.favorite != row2.favorite }}
           />
-          
+
       </View>
     );
   }
@@ -215,7 +291,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#ffffff',
+    backgroundColor: '#F5FCFF',
   },
   welcome: {
     fontSize: 30,
@@ -246,7 +322,7 @@ const styles = StyleSheet.create({
   starIcon:{
     width:25,
     height:25,
-   
+    marginRight:15
   },
 });
 
