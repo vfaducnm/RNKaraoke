@@ -9,6 +9,7 @@ import {
 import { Actions, Scene, Router} from 'react-native-router-flux';
 import KaraokeList from '../app/components/karaokelist.js';
 import FavoriteList from '../app/components/favoritelist.js';
+import SearchResult from '../components/searchresult.js';
 
 const App = () => {
   return (
@@ -32,7 +33,9 @@ const App = () => {
               <Scene key="list"
               component={KaraokeList}
               title="Karaoke"
-              />
+              >
+                <Scene key="detail" component={SearchResult} title="Search Result" hideNavBar={true}>
+              </Scene>
             </Scene>
             <Scene key="fav" title="Favorite List" icon={TabIcon}>
               <Scene key="favorite"
