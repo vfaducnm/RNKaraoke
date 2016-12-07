@@ -4,19 +4,31 @@ import {
   Text,
   View,
   TextInput,
-  Platform,
+  Platform
+
 } from 'react-native';
-import { Actions, Scene, Router} from 'react-native-router-flux';
+import { Actions, Scene, Router, ActionConst, Reducer} from 'react-native-router-flux';
 import KaraokeList from '../app/components/karaokelist.js';
 import FavoriteList from '../app/components/favoritelist.js';
 
+const reducerCreate = params => {
+  const defaultReducer = new Reducer(params);
+
+  return (state, action) => {
+    // console.log('ACTION:', action);
+
+    return defaultReducer(state, action);
+  };
+};
+
 const App = () => {
   return (
-    <Router>
+    <Router createReducer={reducerCreate} >
       <Scene key="root">
         <Scene
           key="tabbar"
           tabs={true}
+          selector={() => { console.log('aaa'); }}
           tabBarStyle={{ backgroundColor: '#FFFFFF',
                           ...Platform.select({
                             ios: {
@@ -28,13 +40,25 @@ const App = () => {
                           }),
                           height: 50,
                           padding: 16, }} >
-            <Scene key="osu" title="Karaoke List" icon={TabIcon}>
+
+            <Scene key="osu" title="Karaoke List" icon={TabIcon} 
+              onPress={()=> {
+                Actions.list({type: ActionConst.REFRESH});
+                // console.log(69)
+
+              }}>
               <Scene key="list"
               component={KaraokeList}
               title="Karaoke"
+              
               />
             </Scene>
-            <Scene key="fav" title="Favorite List" icon={TabIcon}>
+            <Scene key="fav" title="Favorite List" icon={TabIcon}
+              onPress={()=> {
+                Actions.favorite({type: ActionConst.REFRESH});
+                // console.log(69)
+
+              }}>
               <Scene key="favorite"
               component={FavoriteList}
               title="Karaoke"
@@ -45,6 +69,7 @@ const App = () => {
     </Router>
   );
 }
+
 
 const TabIcon = ({ selected, title }) => {
   return (
