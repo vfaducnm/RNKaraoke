@@ -70,6 +70,7 @@ class KaraokeList extends Component {
         console.log('Query completed');
 
         var len = results.rows.length;
+        var _data = [];
       
         for (let i = 0; i < len; i++) {
           let row = results.rows.item(i);
@@ -77,13 +78,11 @@ class KaraokeList extends Component {
           favList[row.id] = row.favorite;
 
           data.push(row);
-      
+          _data.push(row);
         }
 
-        console.log(data);
-
         if (callback) {
-          callback(data);
+          callback(_data);
         }
 
         this.setState({
@@ -127,6 +126,8 @@ class KaraokeList extends Component {
         favList[id] = newData[i].favorite;
 
         this.updateData(newData[i]);
+
+        data[i].favorite = favList[id];
 
         break;
       }
@@ -202,7 +203,7 @@ class KaraokeList extends Component {
             refreshable={true} // enable pull-to-refresh for iOS and touch-to-refresh for Android
             withSections={false} // enable sections
             enableEmptySections = { true }
-            
+            rowHasChanged={ (row1, row2) => { row1 !== row2 || row1.favorite != row2.favorite }}
           />
           
       </View>

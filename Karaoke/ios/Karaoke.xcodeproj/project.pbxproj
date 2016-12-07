@@ -512,7 +512,12 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = H4CR2L3EVK;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
+					};
+					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = H4CR2L3EVK;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -854,8 +859,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Huy Trac (QA8J236SC5)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huy Trac (QA8J236SC5)";
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = H4CR2L3EVK;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -871,6 +879,8 @@
 					"-lc++",
 				);
 				PRODUCT_NAME = Karaoke;
+				PROVISIONING_PROFILE = "79d47a18-f43f-4410-9df2-1d886bc33ea8";
+				PROVISIONING_PROFILE_SPECIFIER = "Wildcard App Enterprise Development";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -879,7 +889,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Huy Trac (QA8J236SC5)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huy Trac (QA8J236SC5)";
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = H4CR2L3EVK;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -895,6 +908,8 @@
 					"-lc++",
 				);
 				PRODUCT_NAME = Karaoke;
+				PROVISIONING_PROFILE = "79d47a18-f43f-4410-9df2-1d886bc33ea8";
+				PROVISIONING_PROFILE_SPECIFIER = "Wildcard App Enterprise Development";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -918,6 +933,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = H4CR2L3EVK;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -966,6 +982,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				DEVELOPMENT_TEAM = H4CR2L3EVK;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
