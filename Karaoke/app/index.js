@@ -42,7 +42,7 @@ const App = () => {
                           height: 50,
                           padding: 16, }} >
 
-            <Scene key="osu" title="Karaoke List" icon={TabIcon} 
+            <Scene key="osu" title="Karaoke List" icon={TabIcon}
               onPress={()=> {
                 Actions.list({type: ActionConst.REFRESH});
                 // console.log(69)
@@ -50,10 +50,10 @@ const App = () => {
               }}>
               <Scene key="list"
               component={KaraokeList}
-              title="Karaoke"          
+              title="Karaoke"
               />
 
-                <Scene key="detail" component={SearchResult} title="Search Result" hideNavBar={true}>
+                <Scene key="search" component={SearchResult} title="Search Result" hideTabBar={true}>
               </Scene>
 
             </Scene>
