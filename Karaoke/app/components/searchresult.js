@@ -9,6 +9,7 @@ import {
   TextInput,
   ListView,
   ActivityIndicator,
+  Alert
 } from 'react-native';
 
 var SQLite = require('react-native-sqlite-storage');
@@ -20,12 +21,8 @@ var data = [];
 var favList = {};
 var wStar = require('../../image/whiteStar.png');
 var star = require('../../image/star.png');
-import SearchResult from '../components/searchresult.js';
-import {Actions} from 'react-native-router-flux'
 
-var giftList;
-
-class KaraokeList extends Component {
+class SearchResult extends Component {
 
   errorCB(err) {
   console.log("SQL Error: " + err);
@@ -46,20 +43,16 @@ class KaraokeList extends Component {
     db = SQLite.openDatabase({name : 'karaoke_db.sqlite', createFromLocation : 1},this.openCB, this.errorCB);
     this.state = {
       text:"",
+      isLoading: true,
       searchText: "",
       forceUpdate: false,
     }
   }
 
-  componentWillUpdate() {
-    console.log('kara will update');
-    this.loadData(1, (data) => {
-      giftList._setPage(1);
-      giftList._updateRows(data);
-    });
+  componentDidMount() {
+    // this.loadData();
 
   }
-
 
   loadData(page = 1, callback) {
     var limit = 13;
@@ -68,7 +61,7 @@ class KaraokeList extends Component {
     if (page == 1) data = [];
 
     db.transaction((tx) => {
-      tx.executeSql('SELECT * FROM tblDanhSachBaiHat LIMIT ' + limit + ' OFFSET ' + offset, [] , (tx, results) => {
+      tx.executeSql("SELECT * FROM tblDanhSachBaiHat WHERE title LIKE '%all%' LIMIT " + limit + " OFFSET " + offset, [] , (tx, results) => {
         console.log('Query completed');
 
         var len = results.rows.length;
@@ -87,6 +80,10 @@ class KaraokeList extends Component {
         if (callback) {
           callback(_data);
         }
+
+        this.setState({
+          isLoading: false
+        });
 
       });
     });
@@ -136,6 +133,8 @@ class KaraokeList extends Component {
   }
 
   loadImage(id) {
+    console.log('========= load image =========');
+
     if (favList[id]) {
       return star;
     } else {
@@ -145,6 +144,8 @@ class KaraokeList extends Component {
   }
 
   updateData(updateData) {
+    // console.log("fav: " + fav , 'idUpd ' + idUpd.id);
+    // TEST START
     db.transaction((tx) => {
       tx.executeSql('UPDATE tblDanhSachBaiHat SET favorite ='+ updateData.favorite +'  WHERE id = ' + updateData.id
                       , [] , (tx, results) => {
@@ -153,12 +154,23 @@ class KaraokeList extends Component {
     },(err) =>{
        console.log('transaction error: ', err.message);
     });
-    
+    // TEST END
+
+  // Cuong- Comment Start
+  // onFetch(searchText, page = 1, callback, options) {
+  //   that.loadData(searchText, page, (rows) => {
+  //     if (rows.length == 0) {
+  //       callback(rows, {
+  //         allLoaded: true // the end of the list is reached
+  //       });
+  //     } else {
+  //       callback(rows);
+  //     }
+  //   });
+  // Cuong - Comment End
   }
 
   renderRow(property) {
-    giftList = this;
-
     return(
       <View style = {{marginTop: 10, flexDirection: 'row',flex: 1,}}>
         <Text style ={{marginLeft: 10, }}>
@@ -167,7 +179,7 @@ class KaraokeList extends Component {
         <Text style = {{marginLeft: 20,flex: 1,color:'blue', }}>
           {property.title}
         </Text>
-        <View>
+        <View style ={{ }}>
           <TouchableOpacity
             onPress={that.addFavorite.bind(that, this, property.id)}>
             <Image
@@ -207,26 +219,10 @@ class KaraokeList extends Component {
 
     return (
       <View style={styles.container}>
-        <TextInput
-              style={{  ...Platform.select({
-                          ios: {top:65},
-                          android: {top: 55},}),
-                        height: 45,
-                        borderColor: '#e5e5e5',
-                        borderWidth: 6,
-                        alignSelf: 'stretch',
-                        textAlign: 'center',
-                      }}
-              //onChangeText={this.onSearchChange.bind(this)}
-              onChange={(event) => this.onSearchChange(event), (text) => {this.setState({text});}}
-              value={this.state.text}
-              placeholder = "Search" />
-
-          <GiftedListView
+        <GiftedListView
             style = {{...Platform.select({
                         ios: {marginTop:120,alignSelf:'stretch',},
                         android: {marginTop: 50,alignSelf:'stretch'},})}}
-
             rowView ={this.renderRow}
             onFetch = {this.onFetch}
             initialListSize={10}
@@ -282,4 +278,4 @@ const styles = StyleSheet.create({
   },
 });
 
-module.exports = KaraokeList;
+module.exports = SearchResult;

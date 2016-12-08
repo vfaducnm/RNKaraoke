@@ -185,22 +185,21 @@ export class FavoriteList extends Component {
     return (
       <View style={styles.container}>
       <TextInput
-              style={{...Platform.select({
-                          ios: {top:65},
-                          android: {top: 55},}),
-                      height: 45,
-                      borderColor: '#e5e5e5',
-                      borderWidth: 6,
-                      alignSelf: 'stretch',}}
-              onChangeText={this.onSearchChange.bind(this)}
-              value={this.state.text} />
+          style={{...Platform.select({
+                      ios: {top:65},
+                      android: {top: 55},}),
+                  height: 45,
+                  borderColor: '#e5e5e5',
+                  borderWidth: 6,
+                  alignSelf: 'stretch',}}
+          onChangeText={this.onSearchChange.bind(this)}
+          value={this.state.text} />
 
 
         <GiftedListView
             style = {{...Platform.select({
                         ios: {marginTop:120,alignSelf:'stretch',},
                         android: {marginTop: 110,alignSelf:'stretch'},})}}
-
             rowView ={this.renderRow}
             onFetch = {this.onFetch}
             initialListSize={10}
