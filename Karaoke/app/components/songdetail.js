@@ -12,26 +12,26 @@ export class SongDetail extends Component {
   constructor(props){
     super(props);
     this.state = {text: ""};
+
+    console.log(this.props.dataDetail)
   }
+
+
+
   render() {
     return (
       <View style={styles.container}>
-        <TextInput
-          placeholder="Search"
-          style={styles.searchBar}
-          onChangeText={(text) => this.setState({text})}
-        />
         <Text style={styles.welcome}>
-          50051
+          {this.props.id}
         </Text>
         <Text style={styles.welcome}>
-          Biển nhớ
+          {this.props.title}
         </Text>
         <Text style={styles.instructions}>
-          Ngày mai em đi biển nhớ tên em gọi về...
+          {this.props.lyric}
         </Text>
         <Text style={styles.intructions}>
-         Trịnh Công Sơn
+         {this.props.source} source
         </Text>
         <Image
           source={{uri:'https://cdn2.iconfinder.com/data/icons/crystalproject/crystal_project_256x256/apps/keditbookmarks.png'}}

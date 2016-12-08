@@ -62,7 +62,7 @@ const App = () => {
                 key="songDetail"
                 component={SongDetail}
                 title="Song Detail"
-                hideNavBar={true} >
+                hideTabBar={true} >
               </Scene>
 
             </Scene>

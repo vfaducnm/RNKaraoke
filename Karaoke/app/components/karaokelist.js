@@ -22,6 +22,7 @@ var db;
 var ds;
 var that;
 var data = [];
+var dataDetail = [];
 var favList = {};
 var wStar = require('../../image/whiteStar.png');
 var star = require('../../image/star.png');
@@ -181,11 +182,15 @@ class KaraokeList extends Component {
     Show detail song
   **/
   showDetailSong(id) {
-    Alert.alert('Song Id: ', id.toString());
-    console.log('showDetailSong ',id);
-    // for (var i = 0; i < ; i++) {
-      
-    // }
+    // Alert.alert('Song Id: ', id.toString());
+    // console.log('showDetailSong '+id,data);
+    for (var i = 0; i < data.length; i++) {
+      if(data[i].id === id) {
+        dataDetail = data[i];
+        Actions.songDetail(dataDetail);
+      }
+    }
+    console.log(dataDetail);
 
   }
 
