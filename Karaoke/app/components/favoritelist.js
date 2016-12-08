@@ -11,8 +11,9 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+
+import GiftedListView from '../customGits/react-native-gifted-listview/';
 var SQLite = require('react-native-sqlite-storage');
-var GiftedListView = require('react-native-gifted-listview');
 var db;
 var ds;
 var that;
@@ -20,7 +21,6 @@ var data = [];
 var favList = {};
 var wStar = require('../../image/whiteStar.png');
 var star = require('../../image/star.png');
-
 var giftList;
 
 export class FavoriteList extends Component {
@@ -48,17 +48,25 @@ export class FavoriteList extends Component {
     }
   }
 
-
+  /**
+    Refresh row  
+  **/
   componentWillUpdate() {
    this.loadData(1, (data) => {
-    var newData = JSON.parse(JSON.stringify(data));
     giftList._setPage(1);
-    giftList._updateRows(data);
+
+    var options = {};
+    if (data.length < 13) {
+      options.allLoaded = true;
+    }
+
+    giftList._updateRows(data, options);
    });
   }
 
-  //Test End
-
+  /**
+    Load Data from DB
+  **/
   loadData(page = 1, callback) {
     var limit = 13;
     var offset = (page - 1) * limit;
@@ -90,6 +98,9 @@ export class FavoriteList extends Component {
     });
   }
 
+  /**
+    Use data render row in page   
+  **/
   onFetch(page = 1, callback, options) {
     that.loadData(page, (rows) => {
       if (rows.length < 13) {
@@ -103,7 +114,10 @@ export class FavoriteList extends Component {
 
   }
 
-  addFavorite(giftedListView, id) {
+  /**
+    Add favorite 
+  **/
+  addFavorite(id) {
     console.log('add favou');
 
     var newData = JSON.parse(JSON.stringify(data));
@@ -127,10 +141,13 @@ export class FavoriteList extends Component {
       }
     }
 
-    giftedListView._updateRows(newData);
+    giftList._updateRows(newData);
 
   }
 
+  /**
+    Change image 
+  **/
   loadImage(id) {
     if (favList[id]) {
       return star;
@@ -140,6 +157,9 @@ export class FavoriteList extends Component {
     
   }
 
+  /**
+    Update data to DB when choose favorite song
+  **/
   updateData(updateData) {
     db.transaction((tx) => {
       tx.executeSql('UPDATE tblDanhSachBaiHat SET favorite ='+ updateData.favorite +'  WHERE id = ' + updateData.id
@@ -152,9 +172,12 @@ export class FavoriteList extends Component {
     
   }
 
-  renderRow(property) {
-    giftList = this;
+  /**
+    Show detail song
+  **/
+  // Do this
 
+  renderRow(property) {
     return(
       <View style = {{marginTop: 10, flexDirection: 'row',flex: 1,}}>
         <Text style ={{marginLeft: 10, }}>
@@ -165,7 +188,7 @@ export class FavoriteList extends Component {
         </Text>
         <View>
           <TouchableOpacity
-            onPress={that.addFavorite.bind(that, this, property.id)}>
+            onPress={that.addFavorite.bind(that, property.id)}>
             <Image
               style={styles.starIcon}
               source={that.loadImage(property.id)}
@@ -208,7 +231,10 @@ export class FavoriteList extends Component {
             refreshable={true} // enable pull-to-refresh for iOS and touch-to-refresh for Android
             withSections={false} // enable sections
             enableEmptySections = { true }
-            rowHasChanged={ (row1, row2) => { row1 !== row2 || row1.favorite != row2.favorite }}
+            rowHasChanged={ (row1, row2) => {
+              return (row1 !== row2 || row1.favorite != row2.favorite);
+            }}
+            refreshContext = {(context) => { giftList = context }}
           />
 
       </View>

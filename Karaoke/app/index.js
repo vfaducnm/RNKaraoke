@@ -11,13 +11,13 @@ import { Actions, Scene, Router, ActionConst, Reducer} from 'react-native-router
 import KaraokeList from '../app/components/karaokelist.js';
 import FavoriteList from '../app/components/favoritelist.js';
 import SearchResult from '../app/components/searchresult.js';
+import SongDetail from '../app/components/songdetail.js';
 
 const reducerCreate = params => {
   const defaultReducer = new Reducer(params);
 
   return (state, action) => {
     // console.log('ACTION:', action);
-
     return defaultReducer(state, action);
   };
 };
@@ -36,7 +36,7 @@ const App = () => {
                               top: 110,
                             },
                             android: {
-                              top: 100,
+                              top: 50,
                             },
                           }),
                           height: 50,
@@ -45,28 +45,37 @@ const App = () => {
             <Scene key="osu" title="Karaoke List" icon={TabIcon} 
               onPress={()=> {
                 Actions.list({type: ActionConst.REFRESH});
-                // console.log(69)
 
               }}>
               <Scene key="list"
-              component={KaraokeList}
-              title="Karaoke"          
+                component={KaraokeList}
+                title="Karaoke"          
               />
 
-                <Scene key="detail" component={SearchResult} title="Search Result" hideNavBar={true}>
+              <Scene key="detail" 
+                component={SearchResult} 
+                title="Search Result" 
+                hideNavBar={true} >
+              </Scene>
+
+              <Scene
+                key="songDetail"
+                component={SongDetail}
+                title="Song Detail"
+                hideNavBar={true} >
               </Scene>
 
             </Scene>
             <Scene key="fav" title="Favorite List" icon={TabIcon}
               onPress={()=> {
                 Actions.favorite({type: ActionConst.REFRESH});
-                // console.log(69)
-
               }}>
+
               <Scene key="favorite"
               component={FavoriteList}
               title="Karaoke"
               />
+
             </Scene>
         </Scene>
       </Scene>

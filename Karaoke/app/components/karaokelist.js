@@ -9,10 +9,15 @@ import {
   TextInput,
   ListView,
   ActivityIndicator,
+  Alert
+
 } from 'react-native';
 
+import GiftedListView from '../customGits/react-native-gifted-listview/';
+import SearchResult from '../components/searchresult.js';
+import SongDetail from '../components/songdetail.js';
+import {Actions} from 'react-native-router-flux';
 var SQLite = require('react-native-sqlite-storage');
-var GiftedListView = require('react-native-gifted-listview');
 var db;
 var ds;
 var that;
@@ -20,9 +25,6 @@ var data = [];
 var favList = {};
 var wStar = require('../../image/whiteStar.png');
 var star = require('../../image/star.png');
-import SearchResult from '../components/searchresult.js';
-import {Actions} from 'react-native-router-flux'
-
 var giftList;
 
 class KaraokeList extends Component {
@@ -51,16 +53,27 @@ class KaraokeList extends Component {
     }
   }
 
+  /**
+    Refresh row  
+  **/
   componentWillUpdate() {
     console.log('kara will update');
     this.loadData(1, (data) => {
       giftList._setPage(1);
-      giftList._updateRows(data);
+
+      var options = {};
+      if (data.length < 13) {
+        options.allLoaded = true;
+      }
+
+      giftList._updateRows(data, options);
     });
 
   }
 
-
+  /**
+    Load Data from DB
+  **/
   loadData(page = 1, callback) {
     var limit = 13;
     var offset = (page - 1) * limit;
@@ -92,7 +105,9 @@ class KaraokeList extends Component {
     });
   }
 
-
+  /**
+    Use data render row in page   
+  **/
   onFetch(page = 1, callback, options) {
     that.loadData(page, (rows) => {
       if (rows.length == 0) {
@@ -106,12 +121,12 @@ class KaraokeList extends Component {
 
   }
 
-
-  addFavorite(giftedListView, id) {
+  /**
+    Add favorite 
+  **/
+  addFavorite(id) {
     console.log('add favou');
-
     var newData = JSON.parse(JSON.stringify(data));
-
     for (var i=0; i<newData.length; i++) {
       if (newData[i].id == id) {
 
@@ -131,10 +146,13 @@ class KaraokeList extends Component {
       }
     }
 
-    giftedListView._updateRows(newData);
+    giftList._updateRows(newData);
 
   }
 
+  /**
+    Change image 
+  **/
   loadImage(id) {
     if (favList[id]) {
       return star;
@@ -144,6 +162,9 @@ class KaraokeList extends Component {
 
   }
 
+  /**
+    Update data to DB when choose favorite song
+  **/
   updateData(updateData) {
     db.transaction((tx) => {
       tx.executeSql('UPDATE tblDanhSachBaiHat SET favorite ='+ updateData.favorite +'  WHERE id = ' + updateData.id
@@ -156,20 +177,37 @@ class KaraokeList extends Component {
     
   }
 
-  renderRow(property) {
-    giftList = this;
+  /**
+    Show detail song
+  **/
+  showDetailSong(id) {
+    Alert.alert('Song Id: ', id.toString());
+    console.log('showDetailSong ',id);
+    // for (var i = 0; i < ; i++) {
+      
+    // }
 
+  }
+
+  renderRow(property) {
     return(
-      <View style = {{marginTop: 10, flexDirection: 'row',flex: 1,}}>
-        <Text style ={{marginLeft: 10, }}>
-          {property.id}
-        </Text>
-        <Text style = {{marginLeft: 20,flex: 1,color:'blue', }}>
-          {property.title}
-        </Text>
+      <View style = {{marginTop: 10, flexDirection: 'row',flex: 1,alignSelf:'stretch',}}>
+        <View style ={{marginLeft: 10, }}>
+          <Text >
+            {property.id}
+          </Text>
+        </View>
+        <View style ={{flex: 1,}}>
+          <TouchableOpacity 
+            onPress={that.showDetailSong.bind(that,property.id)}>
+            <Text style = {{marginLeft: 20,flex: 1,color:'blue', }}>
+              {property.title}
+            </Text>
+          </TouchableOpacity>
+        </View>
         <View>
           <TouchableOpacity
-            onPress={that.addFavorite.bind(that, this, property.id)}>
+            onPress={that.addFavorite.bind(that, property.id)}>
             <Image
               style={styles.starIcon}
               source={that.loadImage(property.id)}
@@ -235,7 +273,10 @@ class KaraokeList extends Component {
             refreshable={true} // enable pull-to-refresh for iOS and touch-to-refresh for Android
             withSections={false} // enable sections
             enableEmptySections = { true }
-            rowHasChanged={ (row1, row2) => { row1 !== row2 || row1.favorite != row2.favorite }}
+            rowHasChanged={ (row1, row2) => {
+              return (row1 !== row2 || row1.favorite != row2.favorite);
+            }}
+            refreshContext = {(context) => { giftList = context }}
           />
 
       </View>
