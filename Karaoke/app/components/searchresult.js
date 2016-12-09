@@ -54,13 +54,21 @@ class SearchResult extends Component {
 
   loadData(page = 1, callback) {
     var searchText = this.props.data;
+    var favorite = this.props.favorite;
     var limit = 13;
     var offset = (page - 1) * limit;
+    var sql = "";
 
     if (page == 1) data = [];
 
     db.transaction((tx) => {
-      tx.executeSql("SELECT * FROM tblDanhSachBaiHat WHERE title LIKE '%" + searchText + "%' LIMIT " + limit + " OFFSET " + offset, [] , (tx, results) => {
+      if(favorite == 0){
+        sql = "SELECT * FROM tblDanhSachBaiHat WHERE title_simple LIKE '%" + searchText + "%' LIMIT " + limit + " OFFSET " + offset;
+      }
+      if(favorite == 1){
+        sql = "SELECT * FROM tblDanhSachBaiHat WHERE title_simple LIKE '%" + searchText + "%' AND favorite=1 LIMIT " + limit + " OFFSET " + offset;
+      }
+      tx.executeSql(sql, [] , (tx, results) => {
         console.log('Query completed');
 
         var len = results.rows.length;

@@ -214,6 +214,7 @@ export class FavoriteList extends Component {
                   height: 45,
                   borderColor: '#e5e5e5',
                   borderWidth: 6,
+                  textAlign: 'center',
                   alignSelf: 'stretch',}}
           onChangeText={(text) => {this.setState({text});}}
           value={this.state.text}
@@ -223,7 +224,7 @@ export class FavoriteList extends Component {
                       ios: {top:14},
                       android: {top: 14},}),
                         alignItems: 'flex-end'}} >
-            <Button title="Search" onPress={()=> Actions.search({data: this.state.text})} />
+            <Button title="Search" onPress={()=> Actions.search({data: this.state.text, favorite: 1})} />
           </View>
 
         <GiftedListView
