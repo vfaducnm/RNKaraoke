@@ -9,8 +9,8 @@ import {
   TextInput,
   ListView,
   ActivityIndicator,
-  Alert
-
+  Alert,
+  Button,
 } from 'react-native';
 
 import GiftedListView from '../customGits/react-native-gifted-listview/';
@@ -26,6 +26,8 @@ var dataDetail = [];
 var favList = {};
 var wStar = require('../../image/whiteStar.png');
 var star = require('../../image/star.png');
+// import SearchResult from '../components/searchresult.js';
+
 var giftList;
 
 class KaraokeList extends Component {
@@ -175,7 +177,7 @@ class KaraokeList extends Component {
     },(err) =>{
        console.log('transaction error: ', err.message);
     });
-    
+
   }
 
   /**
@@ -187,7 +189,7 @@ class KaraokeList extends Component {
     for (var i = 0; i < data.length; i++) {
       if(data[i].id === id) {
         dataDetail = data[i];
-        Actions.songDetail(dataDetail);
+        Actions.songDetail({detailData: dataDetail});
       }
     }
     console.log(dataDetail);
@@ -223,24 +225,7 @@ class KaraokeList extends Component {
     );
   }
 
-
-  setSearchText(event){
-    let searchText = event.nativeEvent.text;
-    this.setState({searchText});
-
-    base.fetch('title', )
-  }
-
-  filterSongs(searchText, songs){
-    let text = searchText.toLowerCase();
-    return filter(songs, (n) => {
-      let song = n.title.toLowerCase();
-      return song.search(text) != -1;
-    });
-  }
-
   onSearchChange (event) {
-   //var textSearch = event.nativeEvent.text.toLowerCase()
    console.log(event.nativeEvent.text);
    this.setState({searchText: event.nativeEvent.text.toLowerCase(), forceUpdate: true})
   }
@@ -259,16 +244,23 @@ class KaraokeList extends Component {
                         borderWidth: 6,
                         alignSelf: 'stretch',
                         textAlign: 'center',
+                        placeholder: 'Search',
                       }}
-              //onChangeText={this.onSearchChange.bind(this)}
-              onChange={(event) => this.onSearchChange(event), (text) => {this.setState({text});}}
+              onChangeText={(text) => {this.setState({text});}}
               value={this.state.text}
               placeholder = "Search" />
+
+          <View style={{...Platform.select({
+                          ios: {top:14},
+                          android: {top: 14},}),
+                          alignItems: 'flex-end'}} >
+            <Button title="Search" onPress={()=> Actions.search({data: this.state.text})} />
+          </View>
 
           <GiftedListView
             style = {{...Platform.select({
                         ios: {marginTop:120,alignSelf:'stretch',},
-                        android: {marginTop: 50,alignSelf:'stretch'},})}}
+                        android: {marginTop: 30,alignSelf:'stretch'},})}}
 
             rowView ={this.renderRow}
             onFetch = {this.onFetch}
@@ -292,7 +284,6 @@ class KaraokeList extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
   welcome: {

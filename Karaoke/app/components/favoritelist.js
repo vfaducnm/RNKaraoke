@@ -4,11 +4,12 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Image, 
+  Image,
   Platform,
   TextInput,
   ListView,
   ActivityIndicator,
+  Button,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
@@ -40,11 +41,10 @@ export class FavoriteList extends Component {
     super(props);
     that = this;
     db = SQLite.openDatabase({name : 'karaoke_db.sqlite', createFromLocation : 1},this.openCB, this.errorCB);
-    
+
     this.state = {
       text:"",
       searchText: "",
-      forceUpdate: false,
     }
   }
 
@@ -79,7 +79,7 @@ export class FavoriteList extends Component {
 
         var len = results.rows.length;
         var _data = [];
-      
+
         for (let i = 0; i < len; i++) {
           let row = results.rows.item(i);
 
@@ -154,7 +154,7 @@ export class FavoriteList extends Component {
     } else {
       return wStar;
     }
-    
+
   }
 
   /**
@@ -169,7 +169,7 @@ export class FavoriteList extends Component {
     },(err) =>{
        console.log('transaction error: ', err.message);
     });
-    
+
   }
 
   /**
@@ -181,7 +181,7 @@ export class FavoriteList extends Component {
     return(
       <View style = {{marginTop: 10, flexDirection: 'row',flex: 1,}}>
         <Text style ={{marginLeft: 10, }}>
-          {property.id} 
+          {property.id}
         </Text>
         <Text style = {{marginLeft: 20,flex: 1,color:'blue', }}>
           {property.title}
@@ -200,8 +200,8 @@ export class FavoriteList extends Component {
   }
 
   onSearchChange (event) {
-   var textSearch = event.nativeEvent.text.toLowerCase()
-   this.setState({searchText: textSearch, forceUpdate: true})
+   console.log(event.nativeEvent.text);
+   this.setState({searchText: event.nativeEvent.text.toLowerCase()})
   }
 
   render() {
@@ -215,14 +215,21 @@ export class FavoriteList extends Component {
                   borderColor: '#e5e5e5',
                   borderWidth: 6,
                   alignSelf: 'stretch',}}
-          onChangeText={this.onSearchChange.bind(this)}
-          value={this.state.text} />
+          onChangeText={(text) => {this.setState({text});}}
+          value={this.state.text}
+          placeholder= "Search" />
 
+          <View style={{...Platform.select({
+                      ios: {top:14},
+                      android: {top: 14},}),
+                        alignItems: 'flex-end'}} >
+            <Button title="Search" onPress={()=> Actions.search({data: this.state.text})} />
+          </View>
 
         <GiftedListView
             style = {{...Platform.select({
                         ios: {marginTop:120,alignSelf:'stretch',},
-                        android: {marginTop: 110,alignSelf:'stretch'},})}}
+                        android: {marginTop: 30,alignSelf:'stretch'},})}}
             rowView ={this.renderRow}
             onFetch = {this.onFetch}
             initialListSize={10}
@@ -246,7 +253,6 @@ export class FavoriteList extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
   welcome: {

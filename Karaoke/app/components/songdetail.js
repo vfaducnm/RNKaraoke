@@ -13,7 +13,7 @@ export class SongDetail extends Component {
     super(props);
     this.state = {text: ""};
 
-    console.log(this.props.dataDetail)
+    console.log(this.props)
   }
 
 
@@ -22,16 +22,16 @@ export class SongDetail extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          {this.props.id}
+          {this.props.detailData.id}
         </Text>
         <Text style={styles.welcome}>
-          {this.props.title}
+          {this.props.detailData.title}
         </Text>
         <Text style={styles.instructions}>
-          {this.props.lyric}
+          {this.props.detailData.lyric}
         </Text>
         <Text style={styles.intructions}>
-         {this.props.source} source
+         {this.props.detailData.source}
         </Text>
         <Image
           source={{uri:'https://cdn2.iconfinder.com/data/icons/crystalproject/crystal_project_256x256/apps/keditbookmarks.png'}}

@@ -21,6 +21,7 @@ var data = [];
 var favList = {};
 var wStar = require('../../image/whiteStar.png');
 var star = require('../../image/star.png');
+import {Actions} from "react-native-router-flux";
 
 class SearchResult extends Component {
 
@@ -43,9 +44,6 @@ class SearchResult extends Component {
     db = SQLite.openDatabase({name : 'karaoke_db.sqlite', createFromLocation : 1},this.openCB, this.errorCB);
     this.state = {
       text:"",
-      isLoading: true,
-      searchText: "",
-      forceUpdate: false,
     }
   }
 
@@ -55,13 +53,14 @@ class SearchResult extends Component {
   }
 
   loadData(page = 1, callback) {
+    var searchText = this.props.data;
     var limit = 13;
     var offset = (page - 1) * limit;
 
     if (page == 1) data = [];
 
     db.transaction((tx) => {
-      tx.executeSql("SELECT * FROM tblDanhSachBaiHat WHERE title LIKE '%all%' LIMIT " + limit + " OFFSET " + offset, [] , (tx, results) => {
+      tx.executeSql("SELECT * FROM tblDanhSachBaiHat WHERE title LIKE '%" + searchText + "%' LIMIT " + limit + " OFFSET " + offset, [] , (tx, results) => {
         console.log('Query completed');
 
         var len = results.rows.length;
@@ -192,37 +191,14 @@ class SearchResult extends Component {
     );
   }
 
-
-  setSearchText(event){
-    let searchText = event.nativeEvent.text;
-    this.setState({searchText});
-
-    base.fetch('title', )
-  }
-
-  filterSongs(searchText, songs){
-    let text = searchText.toLowerCase();
-    return filter(songs, (n) => {
-      let song = n.title.toLowerCase();
-      return song.search(text) != -1;
-    });
-  }
-
-  onSearchChange (event) {
-   //var textSearch = event.nativeEvent.text.toLowerCase()
-   console.log(event.nativeEvent.text);
-   this.setState({searchText: event.nativeEvent.text.toLowerCase(), forceUpdate: true})
-  }
-
-
   render() {
-
     return (
       <View style={styles.container}>
+        <Text style={{marginTop: 60}}>Result for: {this.props.data}</Text>
         <GiftedListView
             style = {{...Platform.select({
                         ios: {marginTop:120,alignSelf:'stretch',},
-                        android: {marginTop: 50,alignSelf:'stretch'},})}}
+                        android: {marginTop: 5,alignSelf:'stretch'},})}}
             rowView ={this.renderRow}
             onFetch = {this.onFetch}
             initialListSize={10}

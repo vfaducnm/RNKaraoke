@@ -28,7 +28,9 @@ function MergeRecursive(obj1, obj2) {
   return obj1;
 }
 
-var GiftedSpinner = require('react-native-gifted-spinner');
+// var GiftedSpinner = require('react-native-gifted-spinner');
+// import GiftedSpinner from '../customGits/react-native-gifted-spinner/';
+var GiftedSpinner = require('../react-native-gifted-spinner/');
 
 var GiftedListView = React.createClass({
 

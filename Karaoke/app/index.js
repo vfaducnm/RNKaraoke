@@ -36,13 +36,13 @@ const App = () => {
                               top: 110,
                             },
                             android: {
-                              top: 50,
+                              top: 100,
                             },
                           }),
                           height: 50,
                           padding: 16, }} >
 
-            <Scene key="osu" title="Karaoke List" icon={TabIcon} 
+            <Scene key="osu" title="Karaoke List" icon={TabIcon}
               onPress={()=> {
                 Actions.list({type: ActionConst.REFRESH});
 
@@ -52,20 +52,16 @@ const App = () => {
                 title="Karaoke"          
               />
 
-              <Scene key="detail" 
-                component={SearchResult} 
-                title="Search Result" 
-                hideNavBar={true} >
-              </Scene>
+              <Scene key="search" component={SearchResult} title="Search Result" hideTabBar={true}/>
 
               <Scene
                 key="songDetail"
                 component={SongDetail}
                 title="Song Detail"
-                hideTabBar={true} >
-              </Scene>
-
+                hideTabBar={true} />
+              
             </Scene>
+
             <Scene key="fav" title="Favorite List" icon={TabIcon}
               onPress={()=> {
                 Actions.favorite({type: ActionConst.REFRESH});
