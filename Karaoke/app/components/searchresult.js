@@ -11,6 +11,7 @@ import {
   ActivityIndicator,
   Alert
 } from 'react-native';
+import {Actions} from "react-native-router-flux";
 
 var SQLite = require('react-native-sqlite-storage');
 var GiftedListView = require('react-native-gifted-listview');
@@ -21,7 +22,8 @@ var data = [];
 var favList = {};
 var wStar = require('../../image/whiteStar.png');
 var star = require('../../image/star.png');
-import {Actions} from "react-native-router-flux";
+var giftList;
+
 
 class SearchResult extends Component {
 
@@ -47,20 +49,41 @@ class SearchResult extends Component {
     }
   }
 
-  componentDidMount() {
-    // this.loadData();
+  /**
+    Refresh row  
+  **/
+  componentWillUpdate() {
+    console.log('kara will update');
+    this.loadData(1, (data) => {
+      giftList._setPage(1);
+
+      var options = {};
+      if (data.length < 13) {
+        options.allLoaded = true;
+      }
+
+      giftList._updateRows(data, options);
+    });
 
   }
 
   loadData(page = 1, callback) {
     var searchText = this.props.data;
+    var favorite = this.props.favorite;
     var limit = 13;
     var offset = (page - 1) * limit;
+    var sql = "";
 
     if (page == 1) data = [];
 
     db.transaction((tx) => {
-      tx.executeSql("SELECT * FROM tblDanhSachBaiHat WHERE title LIKE '%" + searchText + "%' LIMIT " + limit + " OFFSET " + offset, [] , (tx, results) => {
+      if(favorite == 0){
+        sql = "SELECT * FROM tblDanhSachBaiHat WHERE title_simple LIKE '%" + searchText + "%' LIMIT " + limit + " OFFSET " + offset;
+      }
+      if(favorite == 1){
+        sql = "SELECT * FROM tblDanhSachBaiHat WHERE title_simple LIKE '%" + searchText + "%' AND favorite=1 LIMIT " + limit + " OFFSET " + offset;
+      }
+      tx.executeSql(sql, [] , (tx, results) => {
         console.log('Query completed');
 
         var len = results.rows.length;
@@ -80,18 +103,14 @@ class SearchResult extends Component {
           callback(_data);
         }
 
-        this.setState({
-          isLoading: false
-        });
-
       });
     });
   }
 
 
   onFetch(page = 1, callback, options) {
-    that.loadData(page, (rows) => {
-      if (rows.length == 0) {
+   that.loadData(page, (rows) => {
+      if (rows.length < 13) {
         callback(rows, {
           allLoaded: true // the end of the list is reached
         });
@@ -103,7 +122,7 @@ class SearchResult extends Component {
   }
 
 
-  addFavorite(giftedListView, id) {
+  addFavorite(id) {
     console.log('add favou');
 
     var newData = JSON.parse(JSON.stringify(data));
@@ -127,7 +146,7 @@ class SearchResult extends Component {
       }
     }
 
-    giftedListView._updateRows(newData);
+    giftList._updateRows(newData);
 
   }
 
@@ -153,34 +172,85 @@ class SearchResult extends Component {
     },(err) =>{
        console.log('transaction error: ', err.message);
     });
-    // TEST END
+  }
 
-  // Cuong- Comment Start
-  // onFetch(searchText, page = 1, callback, options) {
-  //   that.loadData(searchText, page, (rows) => {
-  //     if (rows.length == 0) {
-  //       callback(rows, {
-  //         allLoaded: true // the end of the list is reached
-  //       });
-  //     } else {
-  //       callback(rows);
-  //     }
-  //   });
-  // Cuong - Comment End
+  /**
+    Show detail song
+  **/
+  showDetailSong(id) {
+    // Alert.alert('Song Id: ', id.toString());
+    // console.log('showDetailSong '+id,data);
+    for (var i = 0; i < data.length; i++) {
+      if(data[i].id === id) {
+        dataDetail = data[i];
+        Actions.songDetail({detailData: dataDetail});
+      }
+    }
+    // console.log(dataDetail);
+
+  }
+
+   /**
+    Add favorite 
+  **/
+  addFavorite(id) {
+    console.log('add favou');
+    var newData = JSON.parse(JSON.stringify(data));
+    for (var i=0; i<newData.length; i++) {
+      if (newData[i].id == id) {
+
+        if (newData[i].favorite) {
+          newData[i].favorite = 0;
+        } else {
+          newData[i].favorite = 1;
+        }
+
+        favList[id] = newData[i].favorite;
+
+        this.updateData(newData[i]);
+
+        data[i].favorite = favList[id];
+
+        break;
+      }
+    }
+
+    giftList._updateRows(newData);
+
+  }
+
+  /**
+    Change image 
+  **/
+  loadImage(id) {
+    if (favList[id]) {
+      return star;
+    } else {
+      return wStar;
+    }
+
   }
 
   renderRow(property) {
     return(
       <View style = {{marginTop: 10, flexDirection: 'row',flex: 1,}}>
-        <Text style ={{marginLeft: 10, }}>
-          {property.id}
-        </Text>
-        <Text style = {{marginLeft: 20,flex: 1,color:'blue', }}>
-          {property.title}
-        </Text>
+        <View style ={{marginLeft: 10, }}>
+          <Text >
+            {property.id}
+          </Text>
+        </View>
+        <View style ={{flex: 1}}>
+          <TouchableOpacity 
+            onPress={that.showDetailSong.bind(that,property.id)}>
+            <Text style = {{marginLeft: 20,flex: 1,color:'blue', }}>
+              {property.title}
+            </Text>
+          </TouchableOpacity>
+        </View>
+
         <View style ={{ }}>
           <TouchableOpacity
-            onPress={that.addFavorite.bind(that, this, property.id)}>
+            onPress={that.addFavorite.bind(that, property.id)}>
             <Image
               style={styles.starIcon}
               source={that.loadImage(property.id)}
@@ -194,10 +264,18 @@ class SearchResult extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={{marginTop: 60}}>Result for: {this.props.data}</Text>
+        <Text style={{
+                        ...Platform.select({
+                          ios:{marginTop: 80},
+                          android:{marginTop: 60}
+                        })
+                        
+                      }}>
+          Result for: {this.props.data}
+        </Text>
         <GiftedListView
             style = {{...Platform.select({
-                        ios: {marginTop:120,alignSelf:'stretch',},
+                        ios: {marginTop:5,alignSelf:'stretch',},
                         android: {marginTop: 5,alignSelf:'stretch'},})
                     }}
             rowView ={this.renderRow}
@@ -211,6 +289,7 @@ class SearchResult extends Component {
             rowHasChanged={ (row1, row2) => {
               return (row1 !== row2 || row1.favorite != row2.favorite);
             }}
+            refreshContext = {(context) => { giftList = context }}
           />
 
       </View>

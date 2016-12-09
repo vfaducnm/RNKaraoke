@@ -8,6 +8,10 @@ import {
   TextInput,
 } from 'react-native';
 
+var wStar = require('../../image/whiteStar.png');
+var star = require('../../image/star.png');
+const stylesCSS = require('../stylesCSS.js');
+
 export class SongDetail extends Component {
   constructor(props){
     super(props);
@@ -16,12 +20,18 @@ export class SongDetail extends Component {
     console.log(this.props)
   }
 
-
+  loadImage(id) {
+    if (this.props.detailData.favorite) {
+      return star;
+    } else {
+      return wStar;
+    }
+  }
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
+      <View style={stylesCSS.songDetail}>
+        <Text style={stylesCSS.textId}>
           {this.props.detailData.id}
         </Text>
         <Text style={styles.welcome}>
@@ -33,10 +43,10 @@ export class SongDetail extends Component {
         <Text style={styles.intructions}>
          {this.props.detailData.source}
         </Text>
-        <Image
-          source={{uri:'https://cdn2.iconfinder.com/data/icons/crystalproject/crystal_project_256x256/apps/keditbookmarks.png'}}
-          style={{width: 30, height: 30, margin: 15}}
-        />
+         <Image
+              style={styles.starIcon}
+              source={this.loadImage(this.props.detailData.favorite)}
+            />
       </View>
     );
   }
@@ -47,6 +57,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+  },
+  id: {
+   
   },
   welcome: {
     fontSize: 25,
@@ -66,6 +79,11 @@ const styles = StyleSheet.create({
     borderWidth: 6,
     alignSelf: 'stretch',
   },
+  starIcon: {
+    width: 30, 
+    height: 30, 
+    margin: 15
+  }
 });
 
 module.exports = SongDetail;

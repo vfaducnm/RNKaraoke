@@ -12,8 +12,8 @@ import {
   Button,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-
 import GiftedListView from '../customGits/react-native-gifted-listview/';
+const stylesCSS = require('../stylesCSS.js');
 var SQLite = require('react-native-sqlite-storage');
 var db;
 var ds;
@@ -172,20 +172,38 @@ export class FavoriteList extends Component {
 
   }
 
-  /**
+ /**
     Show detail song
   **/
-  // Do this
+  showDetailSong(id) {
+    // Alert.alert('Song Id: ', id.toString());
+    // console.log('showDetailSong '+id,data);
+    for (var i = 0; i < data.length; i++) {
+      if(data[i].id === id) {
+        dataDetail = data[i];
+        Actions.songDetail({detailData: dataDetail});
+      }
+    }
+    // console.log(dataDetail);
+
+  }
 
   renderRow(property) {
     return(
-      <View style = {{marginTop: 10, flexDirection: 'row',flex: 1,}}>
-        <Text style ={{marginLeft: 10, }}>
-          {property.id}
-        </Text>
-        <Text style = {{marginLeft: 20,flex: 1,color:'blue', }}>
-          {property.title}
-        </Text>
+      <View style = {{marginTop: 10, flexDirection: 'row',flex: 1,alignSelf:'stretch',}}>
+        <View style ={{marginLeft: 10, }}>
+          <Text >
+            {property.id}
+          </Text>
+        </View>
+        <View style ={{flex: 1,}}>
+          <TouchableOpacity 
+            onPress={that.showDetailSong.bind(that,property.id)}>
+            <Text style = {{marginLeft: 20,flex: 1,color:'blue', }}>
+              {property.title}
+            </Text>
+          </TouchableOpacity>
+        </View>
         <View>
           <TouchableOpacity
             onPress={that.addFavorite.bind(that, property.id)}>
@@ -206,35 +224,51 @@ export class FavoriteList extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <TextInput
-          style={{...Platform.select({
-                      ios: {top:65},
-                      android: {top: 55},}),
-                  height: 45,
-                  borderColor: '#e5e5e5',
-                  borderWidth: 6,
-                  alignSelf: 'stretch',
-                  textAlign: 'left'
-                }}
-
-          onChangeText={(text) => {this.setState({text});}}
-          value={this.state.text}
-          placeholder= "Search" />
-
-          <View style={{...Platform.select({
-                      ios: {top:14},
-                      android: {top: 14},}),
-                      alignItems: 'flex-end'}} >
-            <Button 
-              title="Search" 
-              onPress={()=> Actions.search({data: this.state.text})} />
+      <View style={ styles.container }>
+          <View style={ stylesCSS.searchViewFav }>
+            <View style={ stylesCSS.textInputViewFav }>
+              <TextInput
+                style={ stylesCSS.textInput
+                        // {...Platform.select({
+                        //     ios: {top:65},
+                        //     android: {top: 55},}),
+                        // height: 45,
+                        // borderColor: '#e5e5e5',
+                        // borderWidth: 6,
+                        // alignSelf: 'stretch',
+                        // textAlign: 'center',
+                        // backgroundColor:'blue'
+                        // }
+                    }
+                onChangeText={(text) => {this.setState({text});}}
+                value={this.state.text}
+                placeholder= "Search" />
+            </View>
+            <View style={ stylesCSS.btnSearch
+                      // {...Platform.select({
+                      //   ios: {top:14},
+                      //   android: {top: 14},}),
+                      //   alignItems: 'flex-end',
+                      //   backgroundColor: 'red'
+                      // }
+                    } >
+                <TouchableOpacity
+                  onPress={()=> Actions.search({data: this.state.text, favorite: 1})}>
+                  <Image
+                    source={require('../../image/ic_search.png')}
+                    style={{width: 30, height: 30, margin: 15}}
+                  />
+                </TouchableOpacity>  
+            </View>
           </View>
 
         <GiftedListView
-            style = {{...Platform.select({
-                        ios: {marginTop:80,alignSelf:'stretch',},
-                        android: {marginTop: 35,alignSelf:'stretch'},})}}
+            style = { stylesCSS.listViewFav
+              // {...Platform.select({
+              //           ios: {marginTop:50,alignSelf:'stretch', backgroundColor:'blue'},
+              //           android: {marginTop: 35,alignSelf:'stretch'},})
+              // }
+            }
             rowView ={this.renderRow}
             onFetch = {this.onFetch}
             initialListSize={10}
@@ -257,7 +291,7 @@ export class FavoriteList extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    //flex: 1,
     backgroundColor: '#F5FCFF',
   },
   welcome: {
