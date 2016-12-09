@@ -198,7 +198,8 @@ class SearchResult extends Component {
         <GiftedListView
             style = {{...Platform.select({
                         ios: {marginTop:120,alignSelf:'stretch',},
-                        android: {marginTop: 5,alignSelf:'stretch'},})}}
+                        android: {marginTop: 5,alignSelf:'stretch'},})
+                    }}
             rowView ={this.renderRow}
             onFetch = {this.onFetch}
             initialListSize={10}
@@ -207,7 +208,9 @@ class SearchResult extends Component {
             refreshable={true} // enable pull-to-refresh for iOS and touch-to-refresh for Android
             withSections={false} // enable sections
             enableEmptySections = { true }
-            rowHasChanged={ (row1, row2) => { row1 !== row2 || row1.favorite != row2.favorite }}
+            rowHasChanged={ (row1, row2) => {
+              return (row1 !== row2 || row1.favorite != row2.favorite);
+            }}
           />
 
       </View>

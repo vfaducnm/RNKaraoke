@@ -207,14 +207,17 @@ export class FavoriteList extends Component {
   render() {
     return (
       <View style={styles.container}>
-      <TextInput
+        <TextInput
           style={{...Platform.select({
                       ios: {top:65},
                       android: {top: 55},}),
                   height: 45,
                   borderColor: '#e5e5e5',
                   borderWidth: 6,
-                  alignSelf: 'stretch',}}
+                  alignSelf: 'stretch',
+                  textAlign: 'left'
+                }}
+
           onChangeText={(text) => {this.setState({text});}}
           value={this.state.text}
           placeholder= "Search" />
@@ -222,14 +225,16 @@ export class FavoriteList extends Component {
           <View style={{...Platform.select({
                       ios: {top:14},
                       android: {top: 14},}),
-                        alignItems: 'flex-end'}} >
-            <Button title="Search" onPress={()=> Actions.search({data: this.state.text})} />
+                      alignItems: 'flex-end'}} >
+            <Button 
+              title="Search" 
+              onPress={()=> Actions.search({data: this.state.text})} />
           </View>
 
         <GiftedListView
             style = {{...Platform.select({
-                        ios: {marginTop:120,alignSelf:'stretch',},
-                        android: {marginTop: 30,alignSelf:'stretch'},})}}
+                        ios: {marginTop:80,alignSelf:'stretch',},
+                        android: {marginTop: 35,alignSelf:'stretch'},})}}
             rowView ={this.renderRow}
             onFetch = {this.onFetch}
             initialListSize={10}
