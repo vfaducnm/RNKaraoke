@@ -58,7 +58,7 @@ class KaraokeList extends Component {
   }
 
   /**
-    Refresh row  
+    Refresh row
   **/
   componentWillUpdate() {
     console.log('kara will update');
@@ -110,7 +110,7 @@ class KaraokeList extends Component {
   }
 
   /**
-    Use data render row in page   
+    Use data render row in page
   **/
   onFetch(page = 1, callback, options) {
     that.loadData(page, (rows) => {
@@ -126,7 +126,7 @@ class KaraokeList extends Component {
   }
 
   /**
-    Add favorite 
+    Add favorite
   **/
   addFavorite(id) {
     console.log('add favou');
@@ -155,7 +155,7 @@ class KaraokeList extends Component {
   }
 
   /**
-    Change image 
+    Change image
   **/
   loadImage(id) {
     if (favList[id]) {
@@ -206,7 +206,7 @@ class KaraokeList extends Component {
           </Text>
         </View>
         <View style ={{flex: 1}}>
-          <TouchableOpacity 
+          <TouchableOpacity
             onPress={that.showDetailSong.bind(that,property.id)}>
             <Text style = {{marginLeft: 20,flex: 1,color:'blue', }}>
               {property.title}
@@ -234,14 +234,14 @@ class KaraokeList extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View  
+        <View
               style={ stylesCSS.searchView
                       //  ...Platform.select({
                       // ios: {flex:1, flexDirection: 'row'},
                       // android: {flex:1 ,height:100,flexDirection: 'row'}
                       // }),
                     }>
-          <View 
+          <View
                 style={ stylesCSS.textInputView
                         // ...Platform.select({
                         //   ios: {flex:1/2},
@@ -249,36 +249,36 @@ class KaraokeList extends Component {
                         // }),
                       }>
             <TextInput
-                style={ stylesCSS.textInput  
+                style={ stylesCSS.textInput
                           // ...Platform.select({
                           //   ios: {top:65},
                           //   android: {top: 55}}),
                           // height: 45,
                           // borderColor: '#e5e5e5',
                           // borderWidth: 6,
-                          // textAlign: 'center',  
+                          // textAlign: 'center',
                         }
                 onChangeText={(text) => {this.setState({text});}}
                 value={this.state.text}
                 placeholder = "Search" />
-            </View> 
-            <View 
+            </View>
+            <View
                 style={ stylesCSS.btnSearch
                           // ...Platform.select({
                           //   ios: {top:65, height:45,},
                           //   android: {top: 45, height:50,alignSelf: 'stretch',}}),
-                          // alignItems: 'flex-end', 
+                          // alignItems: 'flex-end',
                           // backgroundColor:'#e5e5e5',
                           // justifyContent: 'flex-end',
                             // backgroundColor:'red'
-                      } >  
+                      } >
               <TouchableOpacity
                   onPress={()=> Actions.search({data: this.state.text, favorite: 0})}>
                   <Image
                     source={require('../../image/ic_search.png')}
                     style={{width: 30, height: 30, margin: 15}}
                   />
-                </TouchableOpacity>  
+                </TouchableOpacity>
             </View>
           </View>
           <GiftedListView
@@ -296,6 +296,9 @@ class KaraokeList extends Component {
             refreshable={true} // enable pull-to-refresh for iOS and touch-to-refresh for Android
             withSections={false} // enable sections
             enableEmptySections = { true }
+            renderSeparator={(sectionID, rowID) =>
+        <View key={`${sectionID}-${rowID}`} style={styles.separator} />
+      }
             rowHasChanged={ (row1, row2) => {
               return (row1 !== row2 || row1.favorite != row2.favorite);
             }}
@@ -323,6 +326,10 @@ const styles = StyleSheet.create({
     marginTop: 45,
     backgroundColor: '#ffffff',
   },
+  separator: {
+        height: 1,
+        backgroundColor: 'grey',
+      },
   songName:{
     flex:1,
     flexDirection:'row',
@@ -341,7 +348,8 @@ const styles = StyleSheet.create({
   starIcon:{
     width:25,
     height:25,
-    marginRight:15
+    marginRight:15,
+    marginBottom:10
   },
 });
 

@@ -50,7 +50,7 @@ class SearchResult extends Component {
   }
 
   /**
-    Refresh row  
+    Refresh row
   **/
   componentWillUpdate() {
     console.log('kara will update');
@@ -191,7 +191,7 @@ class SearchResult extends Component {
   }
 
    /**
-    Add favorite 
+    Add favorite
   **/
   addFavorite(id) {
     console.log('add favou');
@@ -220,7 +220,7 @@ class SearchResult extends Component {
   }
 
   /**
-    Change image 
+    Change image
   **/
   loadImage(id) {
     if (favList[id]) {
@@ -240,7 +240,7 @@ class SearchResult extends Component {
           </Text>
         </View>
         <View style ={{flex: 1}}>
-          <TouchableOpacity 
+          <TouchableOpacity
             onPress={that.showDetailSong.bind(that,property.id)}>
             <Text style = {{marginLeft: 20,flex: 1,color:'blue', }}>
               {property.title}
@@ -269,7 +269,7 @@ class SearchResult extends Component {
                           ios:{marginTop: 80},
                           android:{marginTop: 60}
                         })
-                        
+
                       }}>
           Result for: {this.props.data}
         </Text>
@@ -286,6 +286,9 @@ class SearchResult extends Component {
             refreshable={true} // enable pull-to-refresh for iOS and touch-to-refresh for Android
             withSections={false} // enable sections
             enableEmptySections = { true }
+            renderSeparator={(sectionID, rowID) =>
+        <View key={`${sectionID}-${rowID}`} style={styles.separator} />
+      }
             rowHasChanged={ (row1, row2) => {
               return (row1 !== row2 || row1.favorite != row2.favorite);
             }}
@@ -314,6 +317,10 @@ const styles = StyleSheet.create({
     marginTop: 45,
     backgroundColor: '#ffffff',
   },
+  separator: {
+        height: 1,
+        backgroundColor: 'grey',
+      },
   songName:{
     flex:1,
     flexDirection:'row',
@@ -332,7 +339,8 @@ const styles = StyleSheet.create({
   starIcon:{
     width:25,
     height:25,
-    marginRight:15
+    marginRight:15,
+    marginBottom:10
   },
 });
 
