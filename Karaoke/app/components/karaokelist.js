@@ -260,7 +260,8 @@ class KaraokeList extends Component {
                         }
                 onChangeText={(text) => {this.setState({text});}}
                 value={this.state.text}
-                placeholder = "Search" />
+                placeholder = "Search"
+                returnKeyType  = 'search' />
             </View>
             <View
                 style={ stylesCSS.btnSearch

@@ -6,14 +6,14 @@ var styles = StyleSheet.create({
   listView: {
   	...Platform.select({
                           ios: {marginTop:160, },
-                          android: {marginTop:31}}),
+                          android: {marginTop:30}}),
                         alignSelf:'stretch',
   },
   button: {
   	...Platform.select({
                             ios: {top:65, height:45,},
                             android: {top: 45, height:50,alignSelf: 'stretch',}}),
-                          alignItems: 'flex-end', 
+                          alignItems: 'flex-end',
                           backgroundColor:'#e5e5e5',
                           justifyContent: 'flex-end',
   },
@@ -21,7 +21,7 @@ var styles = StyleSheet.create({
   	...Platform.select({
                             ios: {top:57, height:53,},
                             android: {top: 45, height:60,alignSelf: 'stretch',}}),
-                          alignItems: 'flex-end', 
+                          alignItems: 'flex-end',
                           backgroundColor:'#e5e5e5',
                           justifyContent: 'flex-end',
   },
@@ -32,7 +32,7 @@ var styles = StyleSheet.create({
                           height: 46,
                           borderColor: '#e5e5e5',
                           borderWidth: 6,
-                          textAlign: 'center', 
+                          textAlign: 'center',
   },
   textInputView: {
   	...Platform.select({
@@ -55,18 +55,18 @@ var styles = StyleSheet.create({
   listViewFav: {
   	...Platform.select({
 	                        ios: {
-	                        	
+
 	                        	marginTop:160,
 	                        	alignSelf:'stretch',
-	                        	
+
 	                        },
 	                        android: {
-	                        	
+
 	                        	marginTop: 50,
 	                        	alignSelf:'stretch',
 	                        },
                     	})
-              
+
   },
   textInputViewFav: {
   	...Platform.select({

@@ -30,8 +30,7 @@ const App = () => {
           key="tabbar"
           tabs={true}
           selector={() => { console.log('aaa'); }}
-          tabBarStyle={{ //backgroundColor: '#FFFFFF',
-                          backgroundColor:'pink',
+          tabBarStyle={{ backgroundColor:'#efeff2',
                           ...Platform.select({
                             ios: {
                               top: 110,
@@ -40,10 +39,10 @@ const App = () => {
                               top: 100,
                             },
                           }),
-                          height: 50,
-                          padding: 16, }} >
+                          height: 50, }}
+            tabBarSelectedItemStyle={{backgroundColor: '#d7d7d9'}} >
 
-            <Scene key="osu" title="Karaoke List" icon={TabIcon}
+            <Scene key="kara" title="Karaoke List" icon={TabIcon}
 
               onPress={()=> {
                 Actions.list({type: ActionConst.REFRESH});
@@ -51,13 +50,13 @@ const App = () => {
               }}>
               <Scene key="list"
                 component={KaraokeList}
-                title="Karaoke"          
+                title="Karaoke"
               />
 
-              <Scene 
-                key="search" 
-                component={SearchResult} 
-                title="Search Result" 
+              <Scene
+                key="search"
+                component={SearchResult}
+                title="Search Result"
                 hideTabBar={true}/>
 
               <Scene
@@ -65,7 +64,7 @@ const App = () => {
                 component={SongDetail}
                 title="Song Detail"
                 hideTabBar={true} />
-              
+
             </Scene>
 
             <Scene key="fav" title="Favorite List" icon={TabIcon}

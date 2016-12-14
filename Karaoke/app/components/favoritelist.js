@@ -49,7 +49,7 @@ export class FavoriteList extends Component {
   }
 
   /**
-    Refresh row  
+    Refresh row
   **/
   componentWillUpdate() {
    this.loadData(1, (data) => {
@@ -99,7 +99,7 @@ export class FavoriteList extends Component {
   }
 
   /**
-    Use data render row in page   
+    Use data render row in page
   **/
   onFetch(page = 1, callback, options) {
     that.loadData(page, (rows) => {
@@ -115,7 +115,7 @@ export class FavoriteList extends Component {
   }
 
   /**
-    Add favorite 
+    Add favorite
   **/
   addFavorite(id) {
     console.log('add favou');
@@ -146,7 +146,7 @@ export class FavoriteList extends Component {
   }
 
   /**
-    Change image 
+    Change image
   **/
   loadImage(id) {
     if (favList[id]) {
@@ -197,7 +197,7 @@ export class FavoriteList extends Component {
           </Text>
         </View>
         <View style ={{flex: 1,}}>
-          <TouchableOpacity 
+          <TouchableOpacity
             onPress={that.showDetailSong.bind(that,property.id)}>
             <Text style = {{marginLeft: 20,flex: 1,color:'blue', }}>
               {property.title}
@@ -242,7 +242,8 @@ export class FavoriteList extends Component {
                     }
                 onChangeText={(text) => {this.setState({text});}}
                 value={this.state.text}
-                placeholder= "Search" />
+                placeholder= "Search"
+                returnKeyType  = 'search' />
             </View>
             <View style={ stylesCSS.btnSearch
                       // {...Platform.select({
@@ -258,7 +259,7 @@ export class FavoriteList extends Component {
                     source={require('../../image/ic_search.png')}
                     style={{width: 30, height: 30, margin: 15}}
                   />
-                </TouchableOpacity>  
+                </TouchableOpacity>
             </View>
           </View>
 
