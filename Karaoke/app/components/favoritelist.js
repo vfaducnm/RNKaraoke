@@ -278,6 +278,9 @@ export class FavoriteList extends Component {
             refreshable={true} // enable pull-to-refresh for iOS and touch-to-refresh for Android
             withSections={false} // enable sections
             enableEmptySections = { true }
+            renderSeparator={(sectionID, rowID) =>
+        <View key={`${sectionID}-${rowID}`} style={styles.separator} />
+      }
             rowHasChanged={ (row1, row2) => {
               return (row1 !== row2 || row1.favorite != row2.favorite);
             }}
@@ -306,6 +309,10 @@ const styles = StyleSheet.create({
     marginTop: 45,
     backgroundColor: '#ffffff',
   },
+  separator: {
+        height: 1,
+        backgroundColor: 'grey',
+      },
   songName:{
     flex:1,
     flexDirection:'row',
