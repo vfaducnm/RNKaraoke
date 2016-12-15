@@ -192,14 +192,14 @@ export class FavoriteList extends Component {
     return(
       <View style = {{marginTop: 10, flexDirection: 'row',flex: 1,alignSelf:'stretch',}}>
         <View style ={{marginLeft: 10, }}>
-          <Text >
+          <Text style = {{color:'red'}}>
             {property.id}
           </Text>
         </View>
         <View style ={{flex: 1,}}>
           <TouchableOpacity
             onPress={that.showDetailSong.bind(that,property.id)}>
-            <Text style = {{marginLeft: 20,flex: 1,color:'blue', }}>
+            <Text style = {{fontSize: 13, fontWeight: 'bold', marginLeft: 20,flex: 1,color:'blue', }}>
               {property.title}
             </Text>
           </TouchableOpacity>

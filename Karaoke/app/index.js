@@ -40,7 +40,7 @@ const App = () => {
                             },
                           }),
                           height: 50, }}
-            tabBarSelectedItemStyle={{backgroundColor: '#d7d7d9'}} >
+            tabBarSelectedItemStyle={{backgroundColor: '#E88F4F'}} >
 
             <Scene key="kara" title="Karaoke List" icon={TabIcon}
 
@@ -87,7 +87,7 @@ const App = () => {
 
 const TabIcon = ({ selected, title }) => {
   return (
-    <Text style={{color: selected ? 'blue' :'black'}}>{title}</Text>
+    <Text style={{fontSize: 17, fontWeight: 'bold', color: selected ? 'blue' :'black'}}>{title}</Text>
   );
 }
 
