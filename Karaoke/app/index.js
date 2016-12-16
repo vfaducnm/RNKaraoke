@@ -8,10 +8,12 @@ import {
 
 } from 'react-native';
 import { Actions, Scene, Router, ActionConst, Reducer} from 'react-native-router-flux';
+import ActionButton from 'react-native-action-button';
 import KaraokeList from '../app/components/karaokelist.js';
 import FavoriteList from '../app/components/favoritelist.js';
 import SearchResult from '../app/components/searchresult.js';
 import SongDetail from '../app/components/songdetail.js';
+import AddSong from '../app/components/addsong.js';
 
 const reducerCreate = params => {
   const defaultReducer = new Reducer(params);
@@ -52,19 +54,6 @@ const App = () => {
                 component={KaraokeList}
                 title="Karaoke"
               />
-
-              <Scene
-                key="search"
-                component={SearchResult}
-                title="Search Result"
-                hideTabBar={true}/>
-
-              <Scene
-                key="songDetail"
-                component={SongDetail}
-                title="Song Detail"
-                hideTabBar={true} />
-
             </Scene>
 
             <Scene key="fav" title="Favorite List" icon={TabIcon}
@@ -79,6 +68,25 @@ const App = () => {
 
             </Scene>
         </Scene>
+
+        <Scene
+          key="search"
+          component={SearchResult}
+          title="Search Result"
+          hideTabBar={true}/>
+
+        <Scene
+          key="songDetail"
+          component={SongDetail}
+          title="Song Detail"
+          hideTabBar={true} />
+
+          <Scene
+          key="addSong"
+          component={AddSong}
+          title="Add Song"
+          hideTabBar={true} />
+
       </Scene>
     </Router>
   );

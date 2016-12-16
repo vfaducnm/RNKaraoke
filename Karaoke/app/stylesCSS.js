@@ -25,6 +25,14 @@ var styles = StyleSheet.create({
                           backgroundColor:'#e5e5e5',
                           justifyContent: 'flex-end',
   },
+  btnAdd: {
+  	...Platform.select({
+                          ios: {top:57, height:53,},
+                          android: {top: 45, height:60,alignSelf: 'stretch',}}),
+                          alignItems: 'flex-end',
+                          backgroundColor:'#00ff00',
+                          justifyContent: 'flex-end',
+  },
   textInput: {
   	...Platform.select({
                             ios: {top:64},
@@ -80,6 +88,15 @@ var styles = StyleSheet.create({
                           android: {flex:1, marginTop: 90}
                        }),
   						alignItems: 'center',
+  },
+  addSong: {
+  	...Platform.select({
+                          ios: {flex:1, marginTop: 30,},
+                          android: {flex:1, marginTop: 40}
+                       }),
+  						alignItems: 'flex-start',
+              alignSelf:'stretch',
+              marginLeft: 30,
   },
   textId: {
 			  	fontSize: 30,

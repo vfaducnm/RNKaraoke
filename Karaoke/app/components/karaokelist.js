@@ -15,6 +15,7 @@ import {
 
 import GiftedListView from '../customGits/react-native-gifted-listview/';
 import SearchResult from '../components/searchresult.js';
+import AddSong from '../components/addsong.js';
 import SongDetail from '../components/songdetail.js';
 import {Actions} from 'react-native-router-flux';
 const stylesCSS = require('../stylesCSS.js');
@@ -27,7 +28,6 @@ var dataDetail = [];
 var favList = {};
 var wStar = require('../../image/whiteStar.png');
 var star = require('../../image/star.png');
-// import SearchResult from '../components/searchresult.js';
 
 var giftList;
 
@@ -72,7 +72,6 @@ class KaraokeList extends Component {
 
       giftList._updateRows(data, options);
     });
-
   }
 
   /**
@@ -193,7 +192,6 @@ class KaraokeList extends Component {
         Actions.songDetail({detailData: dataDetail});
       }
     }
-    // console.log(dataDetail);
 
   }
 
@@ -281,6 +279,19 @@ class KaraokeList extends Component {
                   />
                 </TouchableOpacity>
             </View>
+
+            <View
+                style={ stylesCSS.btnAdd
+                      } >
+              <TouchableOpacity
+                  onPress={()=> Actions.addSong({data: this.state.text, favorite: 0})}>
+                  <Image
+                    source={require('../../image/ic_add.png')}
+                    style={{width: 30, height: 30, margin: 15}}
+                  />
+                </TouchableOpacity>
+            </View>
+
           </View>
           <GiftedListView
             style = { stylesCSS.listView
