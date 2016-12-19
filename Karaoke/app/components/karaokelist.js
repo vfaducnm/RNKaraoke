@@ -284,7 +284,7 @@ class KaraokeList extends Component {
                 style={ stylesCSS.btnAdd
                       } >
               <TouchableOpacity
-                  onPress={()=> Actions.addSong({data: this.state.text, favorite: 0})}>
+                  onPress={()=> Actions.addSong()}>
                   <Image
                     source={require('../../image/ic_add.png')}
                     style={{width: 30, height: 30, margin: 15}}
@@ -316,7 +316,9 @@ class KaraokeList extends Component {
             }}
             refreshContext = {(context) => { giftList = context }}
           />
-
+          <TouchableOpacity onPress={()=> Actions.addSong()}>
+            <Text> Add Song </Text>
+          </TouchableOpacity>
       </View>
     );
   }

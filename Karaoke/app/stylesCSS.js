@@ -92,7 +92,7 @@ var styles = StyleSheet.create({
   addSong: {
   	...Platform.select({
                           ios: {flex:1, marginTop: 30,},
-                          android: {flex:1, marginTop: 40}
+                          android: {flex:1, top: 40}
                        }),
   						alignItems: 'flex-start',
               alignSelf:'stretch',
@@ -104,6 +104,11 @@ var styles = StyleSheet.create({
 			    textAlign: 'center',
 			    color:'red',
   },
+  contentAddSong: {
+    flex: 1,
+    backgroundColor: '#F5FCFF',
+    marginTop: 50,
+  }
 })
 
 module.exports = styles;
