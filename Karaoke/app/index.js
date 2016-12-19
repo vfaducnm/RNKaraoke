@@ -13,7 +13,7 @@ import KaraokeList from '../app/components/karaokelist.js';
 import FavoriteList from '../app/components/favoritelist.js';
 import SearchResult from '../app/components/searchresult.js';
 import SongDetail from '../app/components/songdetail.js';
-import AddSong from '../app/components/addsong.js';
+import InsertSong from '../app/components/addsong.js';
 
 const reducerCreate = params => {
   const defaultReducer = new Reducer(params);
@@ -83,7 +83,7 @@ const App = () => {
 
           <Scene
           key="addSong"
-          component={AddSong}
+          component={InsertSong}
           title="Add Song"
           hideTabBar={true} />
 
