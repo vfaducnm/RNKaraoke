@@ -275,7 +275,7 @@ class KaraokeList extends Component {
             }}
             refreshContext = {(context) => { giftList = context }}
           />
-          <View >
+          <View style={{backgroundColor:'#e5e5e5'}}>
               <Text onPress={() => Actions.addSong()} style={styles.addSong}>Add Song</Text>
           </View>
 
@@ -328,7 +328,9 @@ const styles = StyleSheet.create({
   addSong: {
     fontSize: 20,
     textAlign: 'center',
-    margin: 10
+    margin: 10,
+
+    
   },
   addSongView: {
     fontSize: 15,

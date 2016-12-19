@@ -106,9 +106,11 @@ var styles = StyleSheet.create({
   contentAddSong: {
 
       ...Platform.select({
-                          ios: {flex:1, marginTop:80 },
-                          android: {flex:1}
+                          ios: {flex:1, marginTop:100 },
+                          android: {flex:1, marginTop: 50}
                        }),
+      paddingLeft: 10,
+      paddingRight: 10,
   },
   addSongView: {
     
