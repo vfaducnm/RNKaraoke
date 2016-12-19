@@ -91,7 +91,7 @@ var styles = StyleSheet.create({
   addSong: {
   	...Platform.select({
                           ios: {flex:1, marginTop: 30,},
-                          android: {flex:1, top: 40}
+                          android: {flex:1, marginTop: 40}
                        }),
   						alignItems: 'flex-start',
               alignSelf:'stretch',
@@ -109,7 +109,6 @@ var styles = StyleSheet.create({
                           ios: {flex:1, marginTop:80 },
                           android: {flex:1}
                        }),
-     
   },
   addSongView: {
     

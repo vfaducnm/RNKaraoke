@@ -6,8 +6,8 @@ import {
   View,
   Image,
   TextInput,
-  TouchableOpacity,
-  Alert,
+  TouchableOpacity,  
+  Alert,  
   Picker
 } from 'react-native';
 
@@ -17,6 +17,7 @@ const stylesCSS = require('../stylesCSS.js');
 var SQLite = require('react-native-sqlite-storage');
 var db;
 var favorite = 0;
+
 export class InsertSong extends Component {
   constructor(props){
     super(props);
@@ -29,10 +30,9 @@ export class InsertSong extends Component {
     };
 
     db = SQLite.openDatabase({name : 'karaoke_db.sqlite', createFromLocation : 1},this.openCB, this.errorCB);
+
     console.log(this.props)
   }
-
-
 
   insertDB(objectSong) {
     console.log('lang',objectSong.lang);
@@ -64,6 +64,7 @@ export class InsertSong extends Component {
       },(err) =>{
        console.log('transaction error: ', err.message);
     });
+
     this.setState({
       id: '',
       lang: 'en',
@@ -71,15 +72,8 @@ export class InsertSong extends Component {
       author: '',
       lyric: ''
     });
+    
   }
-
-  // loadImage(id) {
-  //   if (this.props.detailData.favorite) {
-  //     return star;
-  //   } else {
-  //     return wStar;
-  //   }
-  // }
 
   checkField(objectSong){
     if(this.state.id == ''){
@@ -111,15 +105,9 @@ export class InsertSong extends Component {
     }
   }
 
-  // <TextInput
-  //   style={{ marginLeft: 30,flex: 0.9,height: 30, borderColor: 'gray', borderWidth: 1}}
-  //   onChangeText={(lang) => this.setState({lang})}
-  //   value={this.state.lang}
-  // />
-
   render() {
     return (
-      <View style={stylesCSS.contentAddSong}>
+            <View style={stylesCSS.contentAddSong}>
         <View style={stylesCSS.addSongView}>
           <Text>Lang(*): </Text>
           <Picker
@@ -176,7 +164,9 @@ export class InsertSong extends Component {
         </View>
 
       </View>
+
     );
+
   }
 }
 

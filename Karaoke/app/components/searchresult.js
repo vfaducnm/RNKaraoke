@@ -287,8 +287,8 @@ class SearchResult extends Component {
             withSections={false} // enable sections
             enableEmptySections = { true }
             renderSeparator={(sectionID, rowID) =>
-        <View key={`${sectionID}-${rowID}`} style={styles.separator} />
-      }
+              <View key={`${sectionID}-${rowID}`} style={styles.separator} />
+            }
             rowHasChanged={ (row1, row2) => {
               return (row1 !== row2 || row1.favorite != row2.favorite);
             }}

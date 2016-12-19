@@ -18,7 +18,8 @@ import SearchResult from '../components/searchresult.js';
 import AddSong from '../components/addsong.js';
 import SongDetail from '../components/songdetail.js';
 import {Actions} from 'react-native-router-flux';
-import AddSong from '../components/testInsertDB.js';
+// import AddSong from  '../app/components/addsong.js';
+
 const stylesCSS = require('../stylesCSS.js');
 var SQLite = require('react-native-sqlite-storage');
 var db;
@@ -255,18 +256,6 @@ class KaraokeList extends Component {
                 </TouchableOpacity>
             </View>
 
-            <View
-                style={ stylesCSS.btnAdd
-                      } >
-              <TouchableOpacity
-                  onPress={()=> Actions.addSong()}>
-                  <Image
-                    source={require('../../image/ic_add.png')}
-                    style={{width: 30, height: 30, margin: 15}}
-                  />
-                </TouchableOpacity>
-            </View>
-
           </View>
           <GiftedListView
             style = { stylesCSS.listView }
@@ -289,6 +278,7 @@ class KaraokeList extends Component {
           <View >
               <Text onPress={() => Actions.addSong()} style={styles.addSong}>Add Song</Text>
           </View>
+
       </View>
     );
   }
