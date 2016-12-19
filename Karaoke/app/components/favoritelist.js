@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import GiftedListView from '../customGits/react-native-gifted-listview/';
+import ActionButton from 'react-native-action-button';
 const stylesCSS = require('../stylesCSS.js');
 var SQLite = require('react-native-sqlite-storage');
 var db;
@@ -191,6 +192,13 @@ export class FavoriteList extends Component {
   renderRow(property) {
     return(
       <View style = {{marginTop: 10, flexDirection: 'row',flex: 1,alignSelf:'stretch',}}>
+        <View>
+          <ActionButton
+            buttonColor="rgba(231,76,60,1)"
+            style ={{marginLeft: 10, marginTop:100}}
+            onPress={() => { console.log("hi")}}
+          />
+        </View>
         <View style ={{marginLeft: 10, }}>
           <Text style = {{color:'red'}}>
             {property.id}
