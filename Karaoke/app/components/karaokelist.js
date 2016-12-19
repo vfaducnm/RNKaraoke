@@ -18,6 +18,8 @@ import SearchResult from '../components/searchresult.js';
 import AddSong from '../components/addsong.js';
 import SongDetail from '../components/songdetail.js';
 import {Actions} from 'react-native-router-flux';
+// import AddSong from  '../app/components/addsong.js';
+
 const stylesCSS = require('../stylesCSS.js');
 var SQLite = require('react-native-sqlite-storage');
 var db;
@@ -233,44 +235,18 @@ class KaraokeList extends Component {
     return (
       <View style={styles.container}>
         <View
-              style={ stylesCSS.searchView
-                      //  ...Platform.select({
-                      // ios: {flex:1, flexDirection: 'row'},
-                      // android: {flex:1 ,height:100,flexDirection: 'row'}
-                      // }),
-                    }>
+              style={ stylesCSS.searchView }>
           <View
-                style={ stylesCSS.textInputView
-                        // ...Platform.select({
-                        //   ios: {flex:1/2},
-                        //   android: {flex:1/2}
-                        // }),
-                      }>
+                style={ stylesCSS.textInputView }>
             <TextInput
-                style={ stylesCSS.textInput
-                          // ...Platform.select({
-                          //   ios: {top:65},
-                          //   android: {top: 55}}),
-                          // height: 45,
-                          // borderColor: '#e5e5e5',
-                          // borderWidth: 6,
-                          // textAlign: 'center',
-                        }
+                style={ stylesCSS.textInput }
                 onChangeText={(text) => {this.setState({text});}}
                 value={this.state.text}
                 placeholder = "Search"
                 returnKeyType  = 'search' />
             </View>
             <View
-                style={ stylesCSS.btnSearch
-                          // ...Platform.select({
-                          //   ios: {top:65, height:45,},
-                          //   android: {top: 45, height:50,alignSelf: 'stretch',}}),
-                          // alignItems: 'flex-end',
-                          // backgroundColor:'#e5e5e5',
-                          // justifyContent: 'flex-end',
-                            // backgroundColor:'red'
-                      } >
+                style={ stylesCSS.btnSearch } >
               <TouchableOpacity
                   onPress={()=> Actions.search({data: this.state.text, favorite: 0})}>
                   <Image
@@ -280,26 +256,9 @@ class KaraokeList extends Component {
                 </TouchableOpacity>
             </View>
 
-            <View
-                style={ stylesCSS.btnAdd
-                      } >
-              <TouchableOpacity
-                  onPress={()=> Actions.addSong({data: this.state.text, favorite: 0})}>
-                  <Image
-                    source={require('../../image/ic_add.png')}
-                    style={{width: 30, height: 30, margin: 15}}
-                  />
-                </TouchableOpacity>
-            </View>
-
           </View>
           <GiftedListView
-            style = { stylesCSS.listView
-                        // ...Platform.select({
-                        //   ios: {marginTop:160},
-                        //   android: {marginTop:31}}),
-                        // alignSelf:'stretch',
-                    }
+            style = { stylesCSS.listView }
             rowView ={this.renderRow}
             onFetch = {this.onFetch}
             initialListSize={10}
@@ -317,10 +276,9 @@ class KaraokeList extends Component {
             refreshContext = {(context) => { giftList = context }}
           />
 
-          <TouchableOpacity onPress={()=> Actions.addSong()}>
-            <Text> Add Song </Text>
-          </TouchableOpacity>
-
+          <View style={{backgroundColor:'#e5e5e5'}}>
+              <Text onPress={() => Actions.addSong()} style={styles.addSong}>Add Song</Text>
+          </View>
 
       </View>
     );
@@ -368,6 +326,17 @@ const styles = StyleSheet.create({
     marginRight:15,
     marginBottom:10
   },
+  addSong: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+
+    
+  },
+  addSongView: {
+    fontSize: 15,
+    flexDirection:'row'
+  }
 });
 
 module.exports = KaraokeList;
