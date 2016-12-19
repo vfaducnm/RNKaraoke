@@ -66,7 +66,6 @@ var styles = StyleSheet.create({
 	                        	alignSelf:'stretch',
 	                        },
                     	})
-
   },
   textInputViewFav: {
   	...Platform.select({
@@ -87,6 +86,21 @@ var styles = StyleSheet.create({
 			    textAlign: 'center',
 			    color:'red',
   },
+  contentAddSong: {
+      ...Platform.select({
+                          ios: {flex:1, marginTop:80 },
+                          android: {flex:1}
+                       }),
+     
+  },
+  addSongView: {
+    
+    flexDirection:'row'
+  },
+  addSongText: {
+    marginLeft: 30,
+    fontSize: 15,
+  }
 })
 
 module.exports = styles;

@@ -12,6 +12,7 @@ import KaraokeList from '../app/components/karaokelist.js';
 import FavoriteList from '../app/components/favoritelist.js';
 import SearchResult from '../app/components/searchresult.js';
 import SongDetail from '../app/components/songdetail.js';
+import InsertSong from '../app/components/testInsertDB.js'
 
 const reducerCreate = params => {
   const defaultReducer = new Reducer(params);
@@ -43,7 +44,6 @@ const App = () => {
             tabBarSelectedItemStyle={{backgroundColor: '#E88F4F'}} >
 
             <Scene key="kara" title="Karaoke List" icon={TabIcon}
-
               onPress={()=> {
                 Actions.list({type: ActionConst.REFRESH});
 
@@ -53,18 +53,7 @@ const App = () => {
                 title="Karaoke"
               />
 
-              <Scene
-                key="search"
-                component={SearchResult}
-                title="Search Result"
-                hideTabBar={true}/>
-
-              <Scene
-                key="songDetail"
-                component={SongDetail}
-                title="Song Detail"
-                hideTabBar={true} />
-
+              
             </Scene>
 
             <Scene key="fav" title="Favorite List" icon={TabIcon}
@@ -79,6 +68,24 @@ const App = () => {
 
             </Scene>
         </Scene>
+
+        <Scene
+          key='addSong'
+          component={InsertSong}
+          title='Add Song'
+        />
+        <Scene
+          key="search"
+          component={SearchResult}
+          title="Search Result"
+          hideTabBar={true}/>
+
+        <Scene
+          key="songDetail"
+          component={SongDetail}
+          title="Song Detail"
+          hideTabBar={true} />
+        
       </Scene>
     </Router>
   );
