@@ -199,7 +199,7 @@ class KaraokeList extends Component {
 
   renderRow(property) {
     return(
-      <View style = {{marginTop: 10, flexDirection: 'row',flex: 1,alignSelf:'stretch'}}>
+      <View style = {styles.renderRow}>
         <View style ={{marginLeft: 10}}>
           <Text style = {{color:'red'}}>
             {property.id}
@@ -330,17 +330,27 @@ const styles = StyleSheet.create({
     marginBottom:10
   },
   addSong: {
+    ...Platform.select({
+                          ios: { margin: 5,height: 35,},
+                          android: {margin: 5,height: 30,}
+                       }),
     fontSize: 18,
     fontWeight: 'bold',
     fontStyle: 'italic',
     color: 'deeppink',
     textAlign: 'center',
-    margin: 5,
-    height: 30,
   },
   addSongView: {
     fontSize: 15,
     flexDirection:'row'
+  },
+  renderRow: {
+    ...Platform.select({
+                          ios: { marginTop: 10,flex: 1},
+                          android: {marginTop: 10,flex: 1,}
+                       }),
+     flexDirection: 'row',
+     alignSelf:'stretch'
   }
 });
 

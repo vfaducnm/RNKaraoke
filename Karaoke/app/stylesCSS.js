@@ -60,21 +60,6 @@ var styles = StyleSheet.create({
                       android: {flex:1 ,height:100,flexDirection: 'row'}
                       }),
   },
-  listViewFav: {
-  	...Platform.select({
-	                        ios: {
-
-	                        	marginTop:160,
-	                        	alignSelf:'stretch',
-
-	                        },
-	                        android: {
-
-	                        	marginTop: 50,
-	                        	alignSelf:'stretch',
-	                        },
-                    	})
-  },
   textInputViewFav: {
   	...Platform.select({
                           ios: {flex:1/2, height:200 },
@@ -106,25 +91,32 @@ var styles = StyleSheet.create({
 
   contentAddSong: {
       ...Platform.select({
-                          ios: {flex:1, paddingTop:100 },
-                          android: {flex:1, paddingTop: 65}
+                          ios: {flex:1, paddingTop:60 },
+                          android: {flex:1, paddingTop: 50,}
                        }),
       paddingLeft: 15,
       paddingRight: 15,
-      backgroundColor: '#F5ECC9',
+      backgroundColor: '#F5FCFF',
   },
 
   addSongTitle: {
-    flex: 1,
-    marginTop: 20,
+    ...Platform.select({
+                          ios: { marginTop: 20,},
+                          android: {marginTop: 20,}
+                       }),
     color: 'blue',
   },
 
   addSongValue: {
+    ...Platform.select({
+                          ios: { flex: 0.1,},
+                          android: {flex: 0.1,}
+                       }),
+
     alignItems: 'flex-start',
-    marginTop: 5,
+    
     alignSelf:'stretch',
-    flex: 1,
+    
     borderColor: 'gray',
     borderWidth: 1,
   },

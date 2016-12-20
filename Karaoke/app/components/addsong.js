@@ -8,7 +8,8 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
-  Picker
+  Picker,
+  Platform
 } from 'react-native';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 var wStar = require('../../image/whiteStar.png');
@@ -127,7 +128,6 @@ export class InsertSong extends Component {
   render() {
     return (
       <View style={stylesCSS.contentAddSong}>
-
         <Text style={stylesCSS.addSongTitle}>ID (*): </Text>
         <TextInput
           style={stylesCSS.addSongValue}
@@ -157,13 +157,12 @@ export class InsertSong extends Component {
             value={this.state.lyric}
           />
 
-        <View >
+        <View style={styles.btnView} >
           <TouchableOpacity
             onPress = {this.checkField.bind(this,this.state)}>
             <Text style={styles.addSong}> Add Song </Text>
           </TouchableOpacity>
         </View>
-
       </View>
     );
   }
@@ -174,9 +173,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-  },
-  id: {
-
   },
   welcome: {
     fontSize: 25,
@@ -196,23 +192,23 @@ const styles = StyleSheet.create({
     borderWidth: 6,
     alignSelf: 'stretch',
   },
-  starIcon: {
-    width: 30,
-    height: 30,
-    margin: 15
+  btnView: {
+    ...Platform.select({
+                          ios: { flex: 1,},
+                          android: {flex: 1,}
+                       }),
   },
   addSong: {
-    flex:1,
+    ...Platform.select({
+                          ios: {marginTop: 50},
+                          android: {marginTop: 50,}
+                       }),
+    padding:10,
     fontSize: 20,
     fontWeight: 'bold',
     color: 'deeppink',
     textAlign: 'center',
-    marginTop: 50,
-    marginLeft: 5,
-    marginRight: 5,
-    marginBottom: 50,
-    height: 32,
-    backgroundColor:'#9DED6B'
+    backgroundColor:'#e5e5e5'
   },
 });
 

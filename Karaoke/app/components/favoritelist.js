@@ -264,7 +264,7 @@ export class FavoriteList extends Component {
           </View>
 
         <GiftedListView
-            style = { stylesCSS.listViewFav
+            style = { stylesCSS.listView
               // {...Platform.select({
               //           ios: {marginTop:50,alignSelf:'stretch', backgroundColor:'blue'},
               //           android: {marginTop: 35,alignSelf:'stretch'},})
