@@ -277,7 +277,7 @@ class KaraokeList extends Component {
           />
 
           <View style={{backgroundColor:'#e5e5e5'}}>
-              <Text onPress={() => Actions.addSong()} style={styles.addSong}>Add Song</Text>
+              <Text onPress={() => Actions.addSong()} style={styles.addSong}>(+) Add Song</Text>
           </View>
 
       </View>
@@ -327,11 +327,12 @@ const styles = StyleSheet.create({
     marginBottom:10
   },
   addSong: {
-    fontSize: 20,
+    fontSize: 18,
+    fontWeight: 'bold',
+    fontStyle: 'italic',
+    color: 'deeppink',
     textAlign: 'center',
-    margin: 10,
-
-    
+    margin: 5,
   },
   addSongView: {
     fontSize: 15,

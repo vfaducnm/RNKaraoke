@@ -105,27 +105,21 @@ var styles = StyleSheet.create({
   },
 
   contentAddSong: {
-
       ...Platform.select({
-                          ios: {flex:1, marginTop:100 },
-                          android: {flex:1, marginTop: 50}
+                          ios: {flex:1, paddingTop:100 },
+                          android: {flex:1, paddingTop: 65}
                        }),
-      paddingLeft: 10,
-      paddingRight: 10,
+      paddingLeft: 15,
+      paddingRight: 15,
+      backgroundColor: '#F5ECC9',
   },
-  addSongView: {
-    
-    flexDirection:'row'
-  },
-  addSongText: {
-    // marginLeft: 30,
-    // fontSize: 15,
 
+  addSongTitle: {
     flex: 1,
-    backgroundColor: '#F5FCFF',
-    marginTop: 50,
+    marginTop: 20,
+    color: 'blue',
+  },
 
-  }
 })
 
 module.exports = styles;

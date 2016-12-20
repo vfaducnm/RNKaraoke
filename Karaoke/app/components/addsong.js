@@ -6,8 +6,8 @@ import {
   View,
   Image,
   TextInput,
-  TouchableOpacity,  
-  Alert,  
+  TouchableOpacity,
+  Alert,
   Picker
 } from 'react-native';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
@@ -51,7 +51,7 @@ export class InsertSong extends Component {
     db.transaction( (tx) => {
         tx.executeSql(' select id from tblDanhSachBaiHat where id = '
                         + objectSong.id , [], (tx, results) =>{
-          console.log('results',results);                
+          console.log('results',results);
           if(results.rows.length == 1) {
             console.log('Ton tai');
             Alert.alert(
@@ -86,7 +86,7 @@ export class InsertSong extends Component {
                console.log('transaction error: ', err.message);
             });
           }
-          
+
       },(err) =>{
          console.log('transaction error: ', err.message);
       });
@@ -99,7 +99,7 @@ export class InsertSong extends Component {
       author: '',
       lyric: ''
     });
-    
+
   }
 
   checkField(objectSong){
@@ -126,43 +126,36 @@ export class InsertSong extends Component {
 
   render() {
     return (
-      <View style={stylesCSS.contentAddSong}>       
-        <View style={stylesCSS.addSongView}>
-          <Text>Id(*): </Text>
-          <TextInput
-            style={{ marginLeft: 30, marginTop: 30,flex: 0.1,height: 30, borderColor: 'gray', borderWidth: 1}}
-            onChangeText={(id) => this.setState({id})}
-            value={this.state.id}
-            keyboardType='numeric'
-          />
-        </View>
+      <View style={stylesCSS.contentAddSong}>
 
-        <View style={stylesCSS.addSongView}>
-          <Text>Song name(*): </Text>
+        <Text style={stylesCSS.addSongTitle}>ID (*): </Text>
+        <TextInput
+          style={{ alignItems: 'flex-start', marginTop: 5, alignSelf:'stretch', flex: 1, borderColor: 'gray', borderWidth: 1}}
+          onChangeText={(id) => this.setState({id})}
+          value={this.state.id}
+          keyboardType='numeric'
+        />
+
+          <Text style={stylesCSS.addSongTitle}>Song name (*): </Text>
           <TextInput
-            style={{ marginLeft: 10, marginTop: 30,flex: 0.1,height: 30, borderColor: 'gray', borderWidth: 1}}
+            style={{ alignItems: 'flex-start', marginTop: 5, alignSelf:'stretch', flex: 1, borderColor: 'gray', borderWidth: 1}}
             onChangeText={(songName) => this.setState({songName})}
             value={this.state.songName}
           />
-        </View>
 
-        <View style={stylesCSS.addSongView}>
-          <Text>Author: </Text>
+          <Text style={stylesCSS.addSongTitle}>Author: </Text>
           <TextInput
-            style={{ marginLeft: 30, marginTop: 30,flex: 0.1,height: 30, borderColor: 'gray', borderWidth: 1}}
+            style={{ alignItems: 'flex-start', marginTop: 5, alignSelf:'stretch', flex: 1, borderColor: 'gray', borderWidth: 1}}
             onChangeText={(author) => this.setState({author})}
             value={this.state.author}
           />
-        </View>
 
-        <View style={stylesCSS.addSongView}>
-          <Text>Lyric: </Text>
+          <Text style={stylesCSS.addSongTitle}>Lyrics: </Text>
           <TextInput
-            style={{ marginLeft: 30,  marginTop: 30,flex: 0.1,height: 30, borderColor: 'gray', borderWidth: 1}}
+            style={{ alignItems: 'flex-start', marginTop: 5, alignSelf:'stretch', flex: 1, borderColor: 'gray', borderWidth: 1}}
             onChangeText={(lyric) => this.setState({lyric})}
             value={this.state.lyric}
           />
-        </View>
 
         <View >
           <TouchableOpacity
@@ -172,9 +165,7 @@ export class InsertSong extends Component {
         </View>
 
       </View>
-
     );
-
   }
 }
 
@@ -211,10 +202,17 @@ const styles = StyleSheet.create({
     margin: 15
   },
   addSong: {
+    flex:1,
     fontSize: 20,
+    fontWeight: 'bold',
+    color: 'deeppink',
     textAlign: 'center',
-    margin: 10,
-    backgroundColor:'#e5e5e5'
+    marginTop: 50,
+    marginLeft: 5,
+    marginRight: 5,
+    marginBottom: 50,
+    height: 32,
+    backgroundColor:'#9DED6B'
   },
 });
 
