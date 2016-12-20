@@ -130,7 +130,7 @@ export class InsertSong extends Component {
 
         <Text style={stylesCSS.addSongTitle}>ID (*): </Text>
         <TextInput
-          style={{ alignItems: 'flex-start', marginTop: 5, alignSelf:'stretch', flex: 1, borderColor: 'gray', borderWidth: 1}}
+          style={stylesCSS.addSongValue}
           onChangeText={(id) => this.setState({id})}
           value={this.state.id}
           keyboardType='numeric'
@@ -138,21 +138,21 @@ export class InsertSong extends Component {
 
           <Text style={stylesCSS.addSongTitle}>Song name (*): </Text>
           <TextInput
-            style={{ alignItems: 'flex-start', marginTop: 5, alignSelf:'stretch', flex: 1, borderColor: 'gray', borderWidth: 1}}
+            style={stylesCSS.addSongValue}
             onChangeText={(songName) => this.setState({songName})}
             value={this.state.songName}
           />
 
           <Text style={stylesCSS.addSongTitle}>Author: </Text>
           <TextInput
-            style={{ alignItems: 'flex-start', marginTop: 5, alignSelf:'stretch', flex: 1, borderColor: 'gray', borderWidth: 1}}
+            style={stylesCSS.addSongValue}
             onChangeText={(author) => this.setState({author})}
             value={this.state.author}
           />
 
           <Text style={stylesCSS.addSongTitle}>Lyrics: </Text>
           <TextInput
-            style={{ alignItems: 'flex-start', marginTop: 5, alignSelf:'stretch', flex: 1, borderColor: 'gray', borderWidth: 1}}
+            style={stylesCSS.addSongValue}
             onChangeText={(lyric) => this.setState({lyric})}
             value={this.state.lyric}
           />

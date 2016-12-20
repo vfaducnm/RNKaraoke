@@ -267,9 +267,12 @@ class KaraokeList extends Component {
             refreshable={true} // enable pull-to-refresh for iOS and touch-to-refresh for Android
             withSections={false} // enable sections
             enableEmptySections = { true }
+
+            // line divider for listView
             renderSeparator={(sectionID, rowID) =>
-              <View key={`${sectionID}-${rowID}`} style={styles.separator} />
+            <View key={`${sectionID}-${rowID}`} style={styles.separator} />
             }
+
             rowHasChanged={ (row1, row2) => {
               return (row1 !== row2 || row1.favorite != row2.favorite);
             }}
@@ -333,6 +336,7 @@ const styles = StyleSheet.create({
     color: 'deeppink',
     textAlign: 'center',
     margin: 5,
+    height: 30,
   },
   addSongView: {
     fontSize: 15,

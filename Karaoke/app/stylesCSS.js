@@ -120,6 +120,15 @@ var styles = StyleSheet.create({
     color: 'blue',
   },
 
+  addSongValue: {
+    alignItems: 'flex-start',
+    marginTop: 5,
+    alignSelf:'stretch',
+    flex: 1,
+    borderColor: 'gray',
+    borderWidth: 1,
+  },
+
 })
 
 module.exports = styles;
