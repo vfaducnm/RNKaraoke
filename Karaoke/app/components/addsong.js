@@ -128,9 +128,12 @@ export class InsertSong extends Component {
   render() {
     return (
       <View style={stylesCSS.contentAddSong}>
+
         <Text style={stylesCSS.addSongTitle}>ID (*): </Text>
         <TextInput
           style={stylesCSS.addSongValue}
+          underlineColorAndroid='transparent'
+          selectTextOnFocus={true}
           onChangeText={(id) => this.setState({id})}
           value={this.state.id}
           keyboardType='numeric'
@@ -139,6 +142,8 @@ export class InsertSong extends Component {
           <Text style={stylesCSS.addSongTitle}>Song name (*): </Text>
           <TextInput
             style={stylesCSS.addSongValue}
+            underlineColorAndroid='transparent'
+            selectTextOnFocus={true}
             onChangeText={(songName) => this.setState({songName})}
             value={this.state.songName}
           />
@@ -146,6 +151,8 @@ export class InsertSong extends Component {
           <Text style={stylesCSS.addSongTitle}>Author: </Text>
           <TextInput
             style={stylesCSS.addSongValue}
+            underlineColorAndroid='transparent'
+            selectTextOnFocus={true}
             onChangeText={(author) => this.setState({author})}
             value={this.state.author}
           />
@@ -153,6 +160,8 @@ export class InsertSong extends Component {
           <Text style={stylesCSS.addSongTitle}>Lyrics: </Text>
           <TextInput
             style={stylesCSS.addSongValue}
+            underlineColorAndroid='transparent'
+            selectTextOnFocus={true}
             onChangeText={(lyric) => this.setState({lyric})}
             value={this.state.lyric}
           />

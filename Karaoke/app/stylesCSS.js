@@ -112,11 +112,9 @@ var styles = StyleSheet.create({
                           ios: { flex: 0.1,},
                           android: {flex: 0.1,}
                        }),
-
     alignItems: 'flex-start',
-    
+    marginTop: 5,
     alignSelf:'stretch',
-    
     borderColor: 'gray',
     borderWidth: 1,
   },
